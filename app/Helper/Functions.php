@@ -74,3 +74,33 @@ function generateWxToken()
     $time      = time();
     return md5($randChars . $time);
 }
+
+function decryptData($encryptedData, $iv, $sessionKey)
+{
+    if (strlen($sessionKey) != 24) {
+        return false;
+    }
+    $aesKey = base64_decode($sessionKey);
+
+    if (strlen($iv) != 24) {
+        return false;
+    }
+    $aesIV = base64_decode($iv);
+
+    $aesCipher = base64_decode($encryptedData);
+
+    $result = openssl_decrypt($aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
+    if (!$result) {
+        return false;
+    }
+
+    $data = json_decode($result, true);
+    if (empty($data)) {
+        return false;
+    }
+    if ($data['watermark']['appid'] != 'wxe1289ed51e02f67c') {
+        return false;
+    }
+
+    return $data;
+}

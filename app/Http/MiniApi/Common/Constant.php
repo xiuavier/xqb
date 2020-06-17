@@ -36,6 +36,10 @@ class Constant
      * @var int 用户微信信息更新失败
      */
     public static $USER_WX_INFO_UPDATE_FAIL = 1004;
+    /**
+     * @var int 用户微信加密信息解密失败
+     */
+    public static $USER_WX_INFO_DECRYPTED_FAIL = 1005;
 
     //=============参数验证================
     /**

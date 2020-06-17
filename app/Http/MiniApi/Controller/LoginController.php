@@ -48,6 +48,8 @@ class LoginController
      * @RequestMapping("completeWxUserInfo")
      * @Validate(validator="TokenValidator")
      * @Validate(validator="UserInfoValidator")
+     * @Validate(validator="IvValidator")
+     * @Validate(validator="EncryptedDataValidator")
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
@@ -56,9 +58,11 @@ class LoginController
      */
     public function completeWxUserInfo(Request $request)
     {
-        $token    = $request->post('token');
-        $userInfo = $request->post('userInfo');
-        $result   = $this->loginService->completeWxUserInfo($token, $userInfo);
+        $token         = $request->post('token');
+        $userInfo      = $request->post('userInfo');
+        $iv            = $request->post('iv');
+        $encryptedData = $request->post('encryptedData');
+        $result        = $this->loginService->completeWxUserInfo($token, $userInfo, $iv, $encryptedData);
         return ReturnMessage::success($result);
     }
 }

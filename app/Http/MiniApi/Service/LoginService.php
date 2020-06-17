@@ -117,11 +117,13 @@ class LoginService
     /**
      * @param string $token
      * @param array $userInfo
+     * @param string $iv
+     * @param string $encryptedData
      * @return Error
-     * @throws DbException
      * @throws ApiException
+     * @throws DbException
      */
-    public function completeWxUserInfo(string $token, array $userInfo)
+    public function completeWxUserInfo(string $token, array $userInfo, string $iv, string $encryptedData)
     {
         //到缓存中获取该登录用户的信息
         $loginUser = $this->redis->hGetAll('token:' . $token);
@@ -139,10 +141,19 @@ class LoginService
         if (!$targetUser) {
             return Error::instance(Constant::$USER_NOT_EXIST);
         }
+
+        //进行用户微信信息解密，获取到unionId
+        $sessionKey  = $this->redis->get('openId:' . $loginUser['openId'] . ':sessionKey');
+        $decryptData = decryptData($encryptedData, $iv, $sessionKey);
+        if (!$decryptData) {
+            return Error::instance(Constant::$USER_WX_INFO_UPDATE_FAIL);
+        }
+
         //表明数据库中是存在目标用户的，进行更新操作
         $data['avatar']   = array_key_exists('avatarUrl', $userInfo) ? $userInfo['avatarUrl'] : '';
         $data['nickname'] = array_key_exists('nickName', $userInfo) ? $userInfo['nickName'] : '';
         $data['gender']   = array_key_exists('gender', $userInfo) ? $userInfo['gender'] : 0;
+        $data['union_id'] = $decryptData['unionId'];
         $result           = $this->userDao->update($targetUser['id'], $data);
         if (!$result) {
             return Error::instance(Constant::$USER_WX_INFO_UPDATE_FAIL);

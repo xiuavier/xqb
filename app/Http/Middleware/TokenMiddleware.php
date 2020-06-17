@@ -42,7 +42,7 @@ class TokenMiddleware implements MiddlewareInterface
             throw new ApiException('Token未传递', Constant::$USER_TOKEN_REQUIRE);
         }
 
-        $exist = $this->redis->exists('user_' . $request->post('token'));
+        $exist = $this->redis->exists('token:' . $request->post('token'));
         if (!$exist) {
             throw new ApiException('用户未登录', Constant::$USER_NOT_LOGIN);
         }

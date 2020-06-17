@@ -3,6 +3,7 @@
 
 namespace App\Http\MiniApi\Service;
 
+use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\UserDao;
 use Swoft\Bean\Annotation\Mapping\Inject;
@@ -33,6 +34,11 @@ class UserService
      */
     public function index(string $token): Error
     {
-        $userInfo = $this->redis->hGetAll('user_' . $token);
+        $userInfo = $this->redis->hGetAll('token:' . $token);
+        if ($userInfo) {
+            return Error::instance(Constant::$SUCCESS_NUM, $userInfo);
+        }
+
+        return Error::instance(Constant::$FAIL_NUM);
     }
 }

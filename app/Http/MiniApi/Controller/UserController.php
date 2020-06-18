@@ -10,6 +10,7 @@ use App\Http\MiniApi\Common\ReturnMessage;
 use App\Http\MiniApi\Service\UserService;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
+use Swoft\Http\Message\ContentType;
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\Middleware;
@@ -43,5 +44,29 @@ class UserController
         $token  = $request->post('token');
         $result = $this->userService->index($token);
         return ReturnMessage::success($result);
+    }
+
+    /**
+     * @RequestMapping("userAgreement")
+     * @return \Swoft\Http\Message\Response|\Swoft\Rpc\Server\Response|\Swoft\Task\Response
+     * @throws \Throwable
+     */
+    public function userAgreement()
+    {
+        $renderer = \Swoft::getBean('view');
+        $content = $renderer->render('user/userAgreement');
+        return context()->getResponse()->withContentType(ContentType::HTML)->withContent($content);
+    }
+
+    /**
+     * @RequestMapping("privacyPolicy")
+     * @return \Swoft\Http\Message\Response|\Swoft\Rpc\Server\Response|\Swoft\Task\Response
+     * @throws \Throwable
+     */
+    public function privacyPolicy()
+    {
+        $renderer = \Swoft::getBean('view');
+        $content = $renderer->render('user/privacyPolicy');
+        return context()->getResponse()->withContentType(ContentType::HTML)->withContent($content);
     }
 }

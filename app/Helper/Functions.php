@@ -3,6 +3,10 @@
  * 一些常用的公共方法会放在这里
  */
 
+define('accessKeyId', 'LTAIUSDM3yodhBRD');
+define('accessKeySecret', 'sZioo1TcjPkdiKxT93mOys3yaFV14f');
+define('VOD_CLIENT_NAME', 'xqbVodServer');
+
 /**
  * @param $url
  * @param int $httpCode

@@ -48,26 +48,6 @@ class VideoService
     }
 
     /**
-     * @param string $videoPath
-     * @return Error
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
-     */
-    public function getUploadInfo(string $videoPath): Error
-    {
-        //获取视频上传地址和凭证
-        $this->initVodClient(accessKeyId, accessKeySecret);
-        $uploadVideoInfo    = $this->createUploadVideo($videoPath);
-        $aliUploadVideoInfo = json_decode($uploadVideoInfo, true);
-        //获取图片上传地址和凭证
-        $uploadImgInfo                   = $this->createUploadImage();
-        $aliUploadImgInfo                = json_decode($uploadImgInfo, true);
-        $uploadInfo['video_upload_info'] = $aliUploadVideoInfo;
-        $uploadInfo['image_upload_info'] = $aliUploadImgInfo;
-        return Error::instance(Constant::$SUCCESS_NUM, $uploadInfo);
-    }
-
-    /**
      * 获取视频上传地址和凭证
      * @param $fileName
      * @return \AlibabaCloud\Client\Result\Result
@@ -98,5 +78,40 @@ class VideoService
             ->withImageType($ImageType)// 指定接口参数
             ->format('JSON')// 指定返回格式
             ->request();      // 执行请求
+    }
+
+    /**
+     * 获取视频上传地址和凭证
+     * @param string $videoPath
+     * @return Error
+     * @throws \AlibabaCloud\Client\Exception\ClientException
+     * @throws \AlibabaCloud\Client\Exception\ServerException
+     */
+    public function getVideoUploadInfo(string $videoPath): Error
+    {
+        //获取视频上传地址和凭证
+        $this->initVodClient(accessKeyId, accessKeySecret);
+        $uploadVideoInfo    = $this->createUploadVideo($videoPath);
+        $aliUploadVideoInfo = json_decode($uploadVideoInfo, true);
+        //获取图片上传地址和凭证
+        $uploadImgInfo                   = $this->createUploadImage();
+        $aliUploadImgInfo                = json_decode($uploadImgInfo, true);
+        $uploadInfo['video_upload_info'] = $aliUploadVideoInfo;
+        $uploadInfo['image_upload_info'] = $aliUploadImgInfo;
+        return Error::instance(Constant::$SUCCESS_NUM, $uploadInfo);
+    }
+
+    /**
+     * 获取图片上传地址和凭证
+     * @return Error
+     * @throws \AlibabaCloud\Client\Exception\ClientException
+     * @throws \AlibabaCloud\Client\Exception\ServerException
+     */
+    public function getImageUploadInfo()
+    {
+        $this->initVodClient(accessKeyId, accessKeySecret);
+        $uploadInfo    = $this->createUploadImage();
+        $aliUploadInfo = json_decode($uploadInfo);
+        return Error::instance(Constant::$SUCCESS_NUM, $aliUploadInfo);
     }
 }

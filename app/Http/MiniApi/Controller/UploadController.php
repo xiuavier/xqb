@@ -6,7 +6,7 @@ namespace App\Http\MiniApi\Controller;
 
 use App\Http\Middleware\TokenMiddleware;
 use App\Http\MiniApi\Common\ReturnMessage;
-use App\Http\MiniApi\Service\VideoService;
+use App\Http\MiniApi\Service\UploadService;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
@@ -23,9 +23,9 @@ class UploadController
 {
     /**
      * @Inject()
-     * @var VideoService
+     * @var UploadService
      */
-    private $videoService;
+    private $uploadService;
 
     /**
      * 获取视频上传地址和凭证
@@ -40,7 +40,7 @@ class UploadController
     public function getVideoUploadInfo(Request $request)
     {
         $videoPath = $request->post('videoPath');
-        $result    = $this->videoService->getVideoUploadInfo($videoPath);
+        $result    = $this->uploadService->getVideoUploadInfo($videoPath);
         return ReturnMessage::success($result);
     }
 
@@ -55,7 +55,24 @@ class UploadController
      */
     public function getImageUploadInfo(Request $request)
     {
-        $result    = $this->videoService->getImageUploadInfo();
+        $result = $this->uploadService->getImageUploadInfo();
+        return ReturnMessage::success($result);
+    }
+
+    /**
+     * @RequestMapping("createPost")
+     * @Validate(validator="TitleValidator")
+     * @Validate(validator="CourseIdValidator")
+     * @Validate(validator="ActivityIdValidator")
+     * @Validate(validator="ImageUrlsValidator")
+     * @Middleware(TokenMiddleware::class)
+     * @param Request $request
+     * @return array
+     */
+    public function createPost(Request $request)
+    {
+        $inputData = $request->input();
+        $result    = $this->uploadService->createPost($inputData);
         return ReturnMessage::success($result);
     }
 }

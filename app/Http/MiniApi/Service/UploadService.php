@@ -17,7 +17,7 @@ use Swoft\Rpc\Server\Annotation\Mapping\Service;
  * @Service()
  * @package App\Http\MiniApi\Service
  */
-class VideoService
+class UploadService
 {
     /**
      * @Inject()
@@ -29,6 +29,22 @@ class VideoService
      * @var UserDao
      */
     private $userDao;
+
+    /**
+     * 获取视频上传地址和凭证
+     * @param string $videoPath
+     * @return Error
+     * @throws \AlibabaCloud\Client\Exception\ClientException
+     * @throws \AlibabaCloud\Client\Exception\ServerException
+     */
+    public function getVideoUploadInfo(string $videoPath): Error
+    {
+        //获取视频上传地址和凭证
+        $this->initVodClient(accessKeyId, accessKeySecret);
+        $uploadVideoInfo    = $this->createUploadVideo($videoPath);
+        $aliUploadVideoInfo = json_decode($uploadVideoInfo, true);
+        return Error::instance(Constant::$SUCCESS_NUM, $aliUploadVideoInfo);
+    }
 
     /**
      * 阿里云-初始化视频点播服务
@@ -67,6 +83,20 @@ class VideoService
 
     /**
      * 获取图片上传地址和凭证
+     * @return Error
+     * @throws \AlibabaCloud\Client\Exception\ClientException
+     * @throws \AlibabaCloud\Client\Exception\ServerException
+     */
+    public function getImageUploadInfo()
+    {
+        $this->initVodClient(accessKeyId, accessKeySecret);
+        $uploadInfo    = $this->createUploadImage();
+        $aliUploadInfo = json_decode($uploadInfo);
+        return Error::instance(Constant::$SUCCESS_NUM, $aliUploadInfo);
+    }
+
+    /**
+     * 获取图片上传地址和凭证
      * @param string $ImageType
      * @return \AlibabaCloud\Client\Result\Result
      * @throws \AlibabaCloud\Client\Exception\ClientException
@@ -81,37 +111,12 @@ class VideoService
     }
 
     /**
-     * 获取视频上传地址和凭证
-     * @param string $videoPath
+     * @param array $inputData
      * @return Error
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
      */
-    public function getVideoUploadInfo(string $videoPath): Error
+    public function createPost(array $inputData)
     {
-        //获取视频上传地址和凭证
-        $this->initVodClient(accessKeyId, accessKeySecret);
-        $uploadVideoInfo    = $this->createUploadVideo($videoPath);
-        $aliUploadVideoInfo = json_decode($uploadVideoInfo, true);
-        //获取图片上传地址和凭证
-        $uploadImgInfo                   = $this->createUploadImage();
-        $aliUploadImgInfo                = json_decode($uploadImgInfo, true);
-        $uploadInfo['video_upload_info'] = $aliUploadVideoInfo;
-        $uploadInfo['image_upload_info'] = $aliUploadImgInfo;
-        return Error::instance(Constant::$SUCCESS_NUM, $uploadInfo);
-    }
-
-    /**
-     * 获取图片上传地址和凭证
-     * @return Error
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
-     */
-    public function getImageUploadInfo()
-    {
-        $this->initVodClient(accessKeyId, accessKeySecret);
-        $uploadInfo    = $this->createUploadImage();
-        $aliUploadInfo = json_decode($uploadInfo);
-        return Error::instance(Constant::$SUCCESS_NUM, $aliUploadInfo);
+        //先要建立推文，然后到资源表中插入一条条数据
+        return Error::instance(Constant::$SUCCESS_NUM);
     }
 }

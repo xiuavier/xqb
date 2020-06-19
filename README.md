@@ -13,3 +13,7 @@ composer require swoft/redis
 路径：xqb_mini/vendor/swoft/validator/src/Exception/ValidatorException.php，
 让它继承自定义的ValidateException，就可以返回自定义的错误信息了，之前code一直是它默认的0，
 这样子改了之后就可以返回我自定义的2001了。
+
+4、新建数据库模型Entity的命令
+新建表对应的Entity：    php ./bin/swoft entity:create 表名
+查看帮助信息：          php ./bin/swoft entity:create -h

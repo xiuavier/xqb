@@ -46,4 +46,10 @@ class Constant
      * @var int 参数验证失败
      */
     public static $PARAM_VALIDATE_FAIL = 2001;
+
+    //=============活动相关================
+    /**
+     * @var int 活动不存在
+     */
+    public static $ACTIVITY_NOT_EXISTS = 3001;
 }

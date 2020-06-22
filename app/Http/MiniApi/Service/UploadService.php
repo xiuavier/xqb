@@ -7,8 +7,10 @@ use AlibabaCloud\Client\AlibabaCloud;
 use AlibabaCloud\Vod\Vod;
 use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\Error;
-use App\Model\Dao\UserDao;
+use App\Model\Dao\ActivityDao;
+use App\Model\Dao\PostDao;
 use Swoft\Bean\Annotation\Mapping\Inject;
+use Swoft\Db\Exception\DbException;
 use Swoft\Redis\Pool;
 use Swoft\Rpc\Server\Annotation\Mapping\Service;
 
@@ -26,9 +28,15 @@ class UploadService
     private $redis;
     /**
      * @Inject()
-     * @var UserDao
+     * @var PostDao
      */
-    private $userDao;
+    private $postDao;
+
+    /**
+     * @Inject()
+     * @var ActivityDao
+     */
+    private $activityDao;
 
     /**
      * 获取视频上传地址和凭证
@@ -113,10 +121,27 @@ class UploadService
     /**
      * @param array $inputData
      * @return Error
+     * @throws DbException
      */
     public function createPost(array $inputData)
     {
         //先要建立推文，然后到资源表中插入一条条数据
+
+        //先获取到活动的信息
+        $activity = $this->activityDao->getOne($inputData['activityId']);
+        if (!$activity) {
+            return Error::instance(Constant::$ACTIVITY_NOT_EXISTS);
+        }
+
+        //然后新建post
+        //TODO
+        $postData = [
+            'title'       => $inputData['title'],
+            'tag'         => $activity['tag'],
+            'activity_id' => $inputData['activityId'],
+            'course_id'   => $inputData['courseId'],
+        ];
+        $post     = $this->postDao->create($postData);
         return Error::instance(Constant::$SUCCESS_NUM);
     }
 }

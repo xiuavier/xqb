@@ -2,12 +2,8 @@
 
 namespace App\Model\Dao;
 
-use App\Exception\ApiException;
-use App\Http\MiniApi\Common\Constant;
-use App\Http\MiniApi\Common\SnowFlake;
-use App\Model\Entity\User;
+use App\Model\Entity\Activity;
 use Swoft\Bean\Annotation\Mapping\Bean;
-use Swoft\Db\DB;
 use Swoft\Db\Exception\DbException;
 
 /**
@@ -17,5 +13,20 @@ use Swoft\Db\Exception\DbException;
  */
 class ActivityDao
 {
+    /**
+     * 获取一条活动的信息
+     * @param int $id
+     * @return array|bool
+     * @throws DbException
+     */
+    public function getOne(int $id)
+    {
+        $activity = Activity::where('id', '=', $id)
+            ->first(['id', 'title', 'tag', 'slogan', 'thumb_url', 'rule_url', 'bg_url']);
+        if (!empty($activity)) {
+            return $activity->toArray();
+        }
 
+        return false;
+    }
 }

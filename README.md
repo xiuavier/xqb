@@ -25,3 +25,6 @@ php ./bin/swoft http:start -d 这个是以守护进程启动
 
 7、服务器项目热更新代码
 切换到项目根目录下执行：php ./bin/swoft http:reload，执行成功即可重新加载项目代码
+
+8、.env文件需要复制
+cp .env.example .env

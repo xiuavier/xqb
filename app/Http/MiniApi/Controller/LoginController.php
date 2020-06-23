@@ -32,7 +32,7 @@ class LoginController
 
     /**
      * @RequestMapping("getToken")
-//     * @Validate(validator="CodeValidator")
+     * @Validate(validator="CodeValidator")
      * @param Request $request
      * @return array
      * @throws DbException
@@ -40,10 +40,9 @@ class LoginController
      */
     public function getToken(Request $request)
     {
-        echo phpinfo();
-//        $code   = $request->post('code');
-//        $result = $this->loginService->getToken($code);
-//        return ReturnMessage::success($result);
+        $code   = $request->post('code');
+        $result = $this->loginService->getToken($code);
+        return ReturnMessage::success($result);
     }
 
     /**

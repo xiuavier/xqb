@@ -70,7 +70,7 @@ class LoginController
     /**
      * @RequestMapping("test")
      */
-    public function get()
+    public function test()
     {
         $user = new User();
         return $user;

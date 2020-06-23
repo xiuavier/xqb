@@ -68,9 +68,9 @@ class LoginController
     }
 
     /**
-     * @RequestMapping("test")
+     * @RequestMapping("userinfo")
      */
-    public function test()
+    public function test(Request $request)
     {
         $user = new User();
         return $user;

@@ -8,7 +8,6 @@ use App\Exception\ApiException;
 use App\Http\Middleware\TokenMiddleware;
 use App\Http\MiniApi\Common\ReturnMessage;
 use App\Http\MiniApi\Service\LoginService;
-use App\Model\Entity\User;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
 use Swoft\Http\Message\Request;
@@ -65,14 +64,5 @@ class LoginController
         $encryptedData = $request->post('encryptedData');
         $result        = $this->loginService->completeWxUserInfo($token, $userInfo, $iv, $encryptedData);
         return ReturnMessage::success($result);
-    }
-
-    /**
-     * @RequestMapping("userinfo")
-     */
-    public function test(Request $request)
-    {
-        $user = new User();
-        return $user;
     }
 }

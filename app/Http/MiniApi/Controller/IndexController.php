@@ -18,7 +18,7 @@ use Swoft\Validator\Annotation\Mapping\Validate;
 
 /**
  * Class IndexController
- * @Controller("/")
+ * @Controller()
  * @package App\Http\MiniApi\Controller
  */
 class IndexController

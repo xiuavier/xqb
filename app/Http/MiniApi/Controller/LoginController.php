@@ -40,9 +40,10 @@ class LoginController
      */
     public function getToken(Request $request)
     {
-        $code   = $request->post('code');
-        $result = $this->loginService->getToken($code);
-        return ReturnMessage::success($result);
+        print_r(phpinfo());
+//        $code   = $request->post('code');
+//        $result = $this->loginService->getToken($code);
+//        return ReturnMessage::success($result);
     }
 
     /**

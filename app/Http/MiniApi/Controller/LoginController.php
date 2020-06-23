@@ -68,7 +68,7 @@ class LoginController
     }
 
     /**
-     * @RequestMapping("get")
+     * @RequestMapping("test")
      */
     public function get()
     {

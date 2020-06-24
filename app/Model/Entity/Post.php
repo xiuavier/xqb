@@ -92,6 +92,15 @@ class Post extends Model
     private $title;
 
     /**
+     * 推文类型，0表示视频，1表示图文
+     *
+     * @Column()
+     *
+     * @var int|null
+     */
+    private $type;
+
+    /**
      * 
      *
      * @Column(name="updated_at", prop="updatedAt")
@@ -207,6 +216,18 @@ class Post extends Model
     }
 
     /**
+     * @param int|null $type
+     *
+     * @return self
+     */
+    public function setType(?int $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
      * @param int|null $updatedAt
      *
      * @return self
@@ -292,6 +313,14 @@ class Post extends Model
     public function getTitle(): ?string
     {
         return $this->title;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getType(): ?int
+    {
+        return $this->type;
     }
 
     /**

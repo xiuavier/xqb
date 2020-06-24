@@ -82,4 +82,25 @@ class UploadController
         $result    = $this->uploadService->createPicturePost($inputData);
         return ReturnMessage::success($result);
     }
+
+    /**
+     * 新建视频推文
+     * @RequestMapping("createVideoPost")
+     * @Validate(validator="TitleValidator")
+     * @Validate(validator="CourseIdValidator")
+     * @Validate(validator="ActivityIdValidator")
+     * @Validate(validator="VideoUrlValidator")
+     * @Validate(validator="VideoIdValidator")
+     * @Middleware(TokenMiddleware::class)
+     * @param Request $request
+     * @return array
+     * @throws ApiException
+     * @throws DbException
+     */
+    public function createVideoPost(Request $request)
+    {
+        $inputData = $request->input();
+        $result    = $this->uploadService->createVideoPost($inputData);
+        return ReturnMessage::success($result);
+    }
 }

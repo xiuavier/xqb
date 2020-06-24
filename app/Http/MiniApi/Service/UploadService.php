@@ -10,6 +10,7 @@ use AlibabaCloud\Client\Result\Result;
 use AlibabaCloud\Vod\Vod;
 use App\Exception\ApiException;
 use App\Http\MiniApi\Common\Constant;
+use App\Http\MiniApi\Common\DatabaseCode;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\ActivityDao;
 use App\Model\Dao\PostDao;
@@ -164,6 +165,7 @@ class UploadService
             'tag'         => $activity['tag'],
             'activity_id' => $inputData['activityId'],
             'course_id'   => $inputData['courseId'],
+            'type'        => DatabaseCode::$POST_TYPE_PICTURE
         ];
         $post     = $this->postDao->create($postData);
 
@@ -171,6 +173,43 @@ class UploadService
         foreach ($inputData['imageUrls'] as $imageUrl) {
             $this->resourceDao->createPicture($user['id'], $imageUrl, $post['id']);
         }
+        return Error::instance(Constant::$SUCCESS_NUM);
+    }
+
+    /**
+     * @param array $inputData
+     * @return Error
+     * @throws ApiException
+     * @throws DbException
+     */
+    public function createVideoPost(array $inputData)
+    {
+        //先获取到活动的信息
+        $activity = $this->activityDao->getOne($inputData['activityId']);
+        if (!$activity) {
+            return Error::instance(Constant::$ACTIVITY_NOT_EXISTS);
+        }
+
+        //获取用户的id
+        $loginUser = $this->redis->hGetAll('token:' . $inputData['token']);
+        $user      = $this->userDao->getUserByUserNo($loginUser['userNo']);
+        if (!$user) {
+            return Error::instance(Constant::$USER_NOT_EXIST);
+        }
+
+        //然后新建post
+        $postData = [
+            'user_id'     => $user['id'],
+            'title'       => $inputData['title'],
+            'tag'         => $activity['tag'],
+            'activity_id' => $inputData['activityId'],
+            'course_id'   => $inputData['courseId'],
+            'type'        => DatabaseCode::$POST_TYPE_VIDEO
+        ];
+        $post     = $this->postDao->create($postData);
+
+        //资源表中建立资源
+        $this->resourceDao->createVideo($user['id'], $inputData['videoUrl'], $inputData['videoId'], $post['id']);
         return Error::instance(Constant::$SUCCESS_NUM);
     }
 }

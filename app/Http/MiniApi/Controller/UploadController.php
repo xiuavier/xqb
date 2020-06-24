@@ -4,10 +4,14 @@
 namespace App\Http\MiniApi\Controller;
 
 
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
+use App\Exception\ApiException;
 use App\Http\Middleware\TokenMiddleware;
 use App\Http\MiniApi\Common\ReturnMessage;
 use App\Http\MiniApi\Service\UploadService;
 use Swoft\Bean\Annotation\Mapping\Inject;
+use Swoft\Db\Exception\DbException;
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\Middleware;
@@ -34,8 +38,8 @@ class UploadController
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
+     * @throws ClientException
+     * @throws ServerException
      */
     public function getVideoUploadInfo(Request $request)
     {
@@ -50,8 +54,8 @@ class UploadController
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
+     * @throws ClientException
+     * @throws ServerException
      */
     public function getImageUploadInfo(Request $request)
     {
@@ -60,7 +64,8 @@ class UploadController
     }
 
     /**
-     * @RequestMapping("createPost")
+     * 新建图片推文
+     * @RequestMapping("createPicturePost")
      * @Validate(validator="TitleValidator")
      * @Validate(validator="CourseIdValidator")
      * @Validate(validator="ActivityIdValidator")
@@ -68,11 +73,13 @@ class UploadController
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
+     * @throws DbException
+     * @throws ApiException
      */
-    public function createPost(Request $request)
+    public function createPicturePost(Request $request)
     {
         $inputData = $request->input();
-        $result    = $this->uploadService->createPost($inputData);
+        $result    = $this->uploadService->createPicturePost($inputData);
         return ReturnMessage::success($result);
     }
 }

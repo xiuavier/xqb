@@ -7,6 +7,7 @@ use App\Http\MiniApi\Common\Constant;
 use App\Model\Entity\Post;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Db\DB;
+use Swoft\Db\Exception\DbException;
 
 /**
  * Class PostDao
@@ -17,7 +18,9 @@ class PostDao
 {
     /**
      * @param array $data
+     * @return array
      * @throws ApiException
+     * @throws DbException
      */
     public function create(array $data)
     {
@@ -30,5 +33,7 @@ class PostDao
             DB::rollBack();
             throw new ApiException('', Constant::$FAIL_NUM);
         }
+
+        return $post->toArray();
     }
 }

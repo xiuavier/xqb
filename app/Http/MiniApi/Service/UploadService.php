@@ -4,11 +4,17 @@
 namespace App\Http\MiniApi\Service;
 
 use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
+use AlibabaCloud\Client\Result\Result;
 use AlibabaCloud\Vod\Vod;
+use App\Exception\ApiException;
 use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\ActivityDao;
 use App\Model\Dao\PostDao;
+use App\Model\Dao\ResourceDao;
+use App\Model\Dao\UserDao;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
 use Swoft\Redis\Pool;
@@ -39,11 +45,23 @@ class UploadService
     private $activityDao;
 
     /**
+     * @Inject()
+     * @var ResourceDao
+     */
+    private $resourceDao;
+
+    /**
+     * @Inject()
+     * @var UserDao
+     */
+    private $userDao;
+
+    /**
      * 获取视频上传地址和凭证
      * @param string $videoPath
      * @return Error
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
+     * @throws ClientException
+     * @throws ServerException
      */
     public function getVideoUploadInfo(string $videoPath): Error
     {
@@ -58,7 +76,7 @@ class UploadService
      * 阿里云-初始化视频点播服务
      * @param $accessKeyId
      * @param $accessKeySecret
-     * @throws \AlibabaCloud\Client\Exception\ClientException
+     * @throws ClientException
      */
     public function initVodClient($accessKeyId, $accessKeySecret)
     {
@@ -74,9 +92,9 @@ class UploadService
     /**
      * 获取视频上传地址和凭证
      * @param $fileName
-     * @return \AlibabaCloud\Client\Result\Result
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
+     * @return Result
+     * @throws ClientException
+     * @throws ServerException
      */
     public function createUploadVideo($fileName)
     {
@@ -92,8 +110,8 @@ class UploadService
     /**
      * 获取图片上传地址和凭证
      * @return Error
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
+     * @throws ClientException
+     * @throws ServerException
      */
     public function getImageUploadInfo()
     {
@@ -106,9 +124,9 @@ class UploadService
     /**
      * 获取图片上传地址和凭证
      * @param string $ImageType
-     * @return \AlibabaCloud\Client\Result\Result
-     * @throws \AlibabaCloud\Client\Exception\ClientException
-     * @throws \AlibabaCloud\Client\Exception\ServerException
+     * @return Result
+     * @throws ClientException
+     * @throws ServerException
      */
     public function createUploadImage($ImageType = 'default')
     {
@@ -122,26 +140,37 @@ class UploadService
      * @param array $inputData
      * @return Error
      * @throws DbException
+     * @throws ApiException
      */
-    public function createPost(array $inputData)
+    public function createPicturePost(array $inputData)
     {
-        //先要建立推文，然后到资源表中插入一条条数据
-
         //先获取到活动的信息
         $activity = $this->activityDao->getOne($inputData['activityId']);
         if (!$activity) {
             return Error::instance(Constant::$ACTIVITY_NOT_EXISTS);
         }
 
+        //获取用户的id
+        $loginUser = $this->redis->hGetAll('token:' . $inputData['token']);
+        $user      = $this->userDao->getUserByUserNo($loginUser['userNo']);
+        if (!$user) {
+            return Error::instance(Constant::$USER_NOT_EXIST);
+        }
+
         //然后新建post
-        //TODO
         $postData = [
+            'user_id'     => $user['id'],
             'title'       => $inputData['title'],
             'tag'         => $activity['tag'],
             'activity_id' => $inputData['activityId'],
             'course_id'   => $inputData['courseId'],
         ];
         $post     = $this->postDao->create($postData);
+
+        //资源表中建立资源
+        foreach ($inputData['imageUrls'] as $imageUrl) {
+            $this->resourceDao->createPicture($user['id'], $imageUrl, $post['id']);
+        }
         return Error::instance(Constant::$SUCCESS_NUM);
     }
 }

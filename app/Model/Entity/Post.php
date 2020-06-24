@@ -29,6 +29,15 @@ class Post extends Model
     private $activityId;
 
     /**
+     * 课程id
+     *
+     * @Column(name="course_id", prop="courseId")
+     *
+     * @var int|null
+     */
+    private $courseId;
+
+    /**
      * 
      *
      * @Column(name="created_at", prop="createdAt")
@@ -109,6 +118,18 @@ class Post extends Model
     public function setActivityId(?int $activityId): self
     {
         $this->activityId = $activityId;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $courseId
+     *
+     * @return self
+     */
+    public function setCourseId(?int $courseId): self
+    {
+        $this->courseId = $courseId;
 
         return $this;
     }
@@ -215,6 +236,14 @@ class Post extends Model
     public function getActivityId(): ?int
     {
         return $this->activityId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCourseId(): ?int
+    {
+        return $this->courseId;
     }
 
     /**

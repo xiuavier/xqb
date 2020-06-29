@@ -51,4 +51,8 @@ class DatabaseCode
      * @var int 广告点击后跳转到外链
      */
     public static $AD_GOTO_OUTSIDE_CHAIN = 4;
+    /**
+     * @var int 小程序前端，活动每页数量
+     */
+    public static $ACTIVITY_PER_PAGE = 5;
 }

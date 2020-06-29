@@ -52,4 +52,10 @@ class Constant
      * @var int 活动不存在
      */
     public static $ACTIVITY_NOT_EXISTS = 3001;
+
+    //=============广告相关================
+    /**
+     * @var int 广告列表为空
+     */
+    public static $ADS_EMPTY = 4001;
 }

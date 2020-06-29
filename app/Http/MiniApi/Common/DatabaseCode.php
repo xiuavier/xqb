@@ -31,4 +31,24 @@ class DatabaseCode
      * @var int 审核失败或撤销审核
      */
     public static $REVIEW_STATUS_FAIL = 2;
+    /**
+     * @var int 广告点击后跳转到活动
+     */
+    public static $AD_GOTO_ACTIVITY = 0;
+    /**
+     * @var int 广告点击后跳转到视频
+     */
+    public static $AD_GOTO_VIDEO = 1;
+    /**
+     * @var int 广告点击后跳转到图文
+     */
+    public static $AD_GOTO_PICTURE = 2;
+    /**
+     * @var int 广告点击后跳转到小程序
+     */
+    public static $AD_GOTO_MINI_PROGRAM = 3;
+    /**
+     * @var int 广告点击后跳转到外链
+     */
+    public static $AD_GOTO_OUTSIDE_CHAIN = 4;
 }

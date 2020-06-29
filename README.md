@@ -28,3 +28,8 @@ php ./bin/swoft http:start -d 这个是以守护进程启动
 
 8、.env文件需要复制
 cp .env.example .env
+
+9、HTTP服务器的reload和restart命令
+php ./bin/swoft http:reload 表示重新加载工作进程
+php ./bin/swoft http:restart 表示重新启动HTTP服务器，git pull更新了代码之后执行该命令
+才能成功更新代码

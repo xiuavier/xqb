@@ -13,4 +13,5 @@ return [
     Constant::$USER_WX_INFO_UPDATE_FAIL    => "用户微信信息更新失败",
     Constant::$USER_WX_INFO_DECRYPTED_FAIL => "用户微信信息解密失败",
     Constant::$ACTIVITY_NOT_EXISTS         => "活动不存在",
+    Constant::$ADS_EMPTY                   => "广告列表为空",
 ];

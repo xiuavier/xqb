@@ -21,7 +21,11 @@ class AdDao
     public function getAds()
     {
         $ads = Ad::where('deleted_at', '=', 0)
-            ->get(['id', 'title', 'thumb', 'type', 'activity_id', 'post_id', 'mini_program_url', 'outside_url']);
+            ->orderBy('id', 'desc')
+            ->get([
+                'id', 'title', 'thumb', 'type', 'activity_id',
+                'post_id', 'mini_program_url', 'outside_url'
+            ]);
         if ($ads->isEmpty()) {
             return false;
         }

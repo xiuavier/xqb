@@ -46,7 +46,7 @@ class ActivityService
             $lists = $this->activityDao->getMany(
                 $data['currentPage'],
                 DatabaseCode::$ACTIVITY_PER_PAGE,
-                $data['type']
+                $data['type'] - 1
             );
         }
 

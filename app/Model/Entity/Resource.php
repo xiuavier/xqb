@@ -20,33 +20,6 @@ use Swoft\Db\Eloquent\Model;
 class Resource extends Model
 {
     /**
-     * 图片或视频资源的阿里云id
-     *
-     * @Column(name="ali_id", prop="aliId")
-     *
-     * @var string|null
-     */
-    private $aliId;
-
-    /**
-     * 创建时间
-     *
-     * @Column(name="created_at", prop="createdAt")
-     *
-     * @var int|null
-     */
-    private $createdAt;
-
-    /**
-     * 删除时间
-     *
-     * @Column(name="deleted_at", prop="deletedAt")
-     *
-     * @var int|null
-     */
-    private $deletedAt;
-
-    /**
      * 
      * @Id()
      * @Column()
@@ -54,6 +27,15 @@ class Resource extends Model
      * @var int
      */
     private $id;
+
+    /**
+     * 资源所属的用户id
+     *
+     * @Column(name="user_id", prop="userId")
+     *
+     * @var int
+     */
+    private $userId;
 
     /**
      * 所属的推文id
@@ -74,13 +56,13 @@ class Resource extends Model
     private $type;
 
     /**
-     * 更新时间
+     * 图片或视频资源的阿里云id
      *
-     * @Column(name="updated_at", prop="updatedAt")
+     * @Column(name="ali_id", prop="aliId")
      *
-     * @var int|null
+     * @var string|null
      */
-    private $updatedAt;
+    private $aliId;
 
     /**
      * 资源路径
@@ -92,50 +74,41 @@ class Resource extends Model
     private $url;
 
     /**
-     * 资源所属的用户id
+     * 视频封面图
      *
-     * @Column(name="user_id", prop="userId")
+     * @Column(name="cover_url", prop="coverUrl")
      *
-     * @var int
+     * @var string|null
      */
-    private $userId;
-
+    private $coverUrl;
 
     /**
-     * @param string|null $aliId
+     * 创建时间
      *
-     * @return self
+     * @Column(name="created_at", prop="createdAt")
+     *
+     * @var int|null
      */
-    public function setAliId(?string $aliId): self
-    {
-        $this->aliId = $aliId;
-
-        return $this;
-    }
+    private $createdAt;
 
     /**
-     * @param int|null $createdAt
+     * 更新时间
      *
-     * @return self
+     * @Column(name="updated_at", prop="updatedAt")
+     *
+     * @var int|null
      */
-    public function setCreatedAt(?int $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
+    private $updatedAt;
 
     /**
-     * @param int|null $deletedAt
+     * 删除时间
      *
-     * @return self
+     * @Column(name="deleted_at", prop="deletedAt")
+     *
+     * @var int|null
      */
-    public function setDeletedAt(?int $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
+    private $deletedAt;
 
-        return $this;
-    }
 
     /**
      * @param int $id
@@ -145,6 +118,18 @@ class Resource extends Model
     public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return self
+     */
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
 
         return $this;
     }
@@ -174,13 +159,13 @@ class Resource extends Model
     }
 
     /**
-     * @param int|null $updatedAt
+     * @param string|null $aliId
      *
      * @return self
      */
-    public function setUpdatedAt(?int $updatedAt): self
+    public function setAliId(?string $aliId): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->aliId = $aliId;
 
         return $this;
     }
@@ -198,39 +183,51 @@ class Resource extends Model
     }
 
     /**
-     * @param int $userId
+     * @param string|null $coverUrl
      *
      * @return self
      */
-    public function setUserId(int $userId): self
+    public function setCoverUrl(?string $coverUrl): self
     {
-        $this->userId = $userId;
+        $this->coverUrl = $coverUrl;
 
         return $this;
     }
 
     /**
-     * @return string|null
+     * @param int|null $createdAt
+     *
+     * @return self
      */
-    public function getAliId(): ?string
+    public function setCreatedAt(?int $createdAt): self
     {
-        return $this->aliId;
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
-     * @return int|null
+     * @param int|null $updatedAt
+     *
+     * @return self
      */
-    public function getCreatedAt(): ?int
+    public function setUpdatedAt(?int $updatedAt): self
     {
-        return $this->createdAt;
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
-     * @return int|null
+     * @param int|null $deletedAt
+     *
+     * @return self
      */
-    public function getDeletedAt(): ?int
+    public function setDeletedAt(?int $deletedAt): self
     {
-        return $this->deletedAt;
+        $this->deletedAt = $deletedAt;
+
+        return $this;
     }
 
     /**
@@ -239,6 +236,14 @@ class Resource extends Model
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): ?int
+    {
+        return $this->userId;
     }
 
     /**
@@ -258,11 +263,11 @@ class Resource extends Model
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getUpdatedAt(): ?int
+    public function getAliId(): ?string
     {
-        return $this->updatedAt;
+        return $this->aliId;
     }
 
     /**
@@ -274,11 +279,35 @@ class Resource extends Model
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getUserId(): ?int
+    public function getCoverUrl(): ?string
     {
-        return $this->userId;
+        return $this->coverUrl;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCreatedAt(): ?int
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUpdatedAt(): ?int
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDeletedAt(): ?int
+    {
+        return $this->deletedAt;
     }
 
 }

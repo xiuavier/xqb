@@ -212,4 +212,126 @@ class UploadService
         $this->resourceDao->createVideo($user['id'], $inputData['videoUrl'], $inputData['videoId'], $post['id']);
         return Error::instance(Constant::$SUCCESS_NUM);
     }
+
+    /**
+     * @param $inputData
+     * @return bool
+     * @throws ClientException
+     * @throws DbException
+     * @throws ServerException
+     * @throws ApiException
+     */
+    public function getAliVideoReviewResult($inputData)
+    {
+        $videoId = $inputData['VideoId'];
+        //先要获取到数据库中的该资源对象
+        $resource = $this->resourceDao->getResourceByAliId($videoId);
+        if (!$resource) {
+            return false;
+        }
+
+        //表示资源表中有该资源，将该资源对应的post的审核状态变为通过审核
+        $client = $this->initVodClient(accessKeyId, accessKeySecret);
+        if ($inputData['Status'] != 'success') {
+            //表示没有通过审核
+            $this->postDao->reviewFail($resource['postId']);
+            return true;
+        }
+
+        //表示通过阿里云审核，还要进行人工审核
+        $this->createAudit($client, $videoId, 'Normal');
+        $info = $this->getAuditHistory($videoId);
+        $Info = json_decode($info, true);
+
+        if ($Info['Status'] != 'Normal') {
+            $this->postDao->reviewFail($resource['postId']);
+            return true;
+        }
+
+        $videoPlayInfo = $this->getPlayInfo($videoId);
+        $videoPlayInfo = json_decode($videoPlayInfo, true);
+        if (empty($videoPlayInfo)) {
+            $this->postDao->reviewFail($resource['postId']);
+            return false;
+        }
+
+        //更新资源表中视频资源的url和封面url
+        $data['url']       = $videoPlayInfo['PlayInfoList']['PlayInfo'][0]['PlayURL'];
+        $data['cover_url'] = $videoPlayInfo['VideoBase']['CoverURL'];
+        $result            = $this->resourceDao->update($resource['id'], $data);
+        if (!$result) {
+            $this->postDao->reviewFail($resource['postId']);
+            return false;
+        }
+
+        //更新推文表中的审核状态，改为审核通过
+        $this->postDao->reviewPass($resource['postId']);
+        return true;
+    }
+
+    /**
+     * 阿里云-人工审核
+     * @param $client
+     * @param $videoID
+     * @param $status
+     * @return Result
+     * @throws ClientException
+     * @throws ServerException
+     */
+    public function createAudit($client, $videoID, $status)
+    {
+        return Vod::v20170321()->createAudit()->client(VOD_CLIENT_NAME)
+            ->withAuditContent($this->buildAuditContent($client, $videoID, $status))// 指定接口参数
+            ->format('JSON')// 指定返回格式
+            ->request();      // 执行请求
+    }
+
+    /**
+     * 阿里云-人工审核，构建审核内容
+     * @param $client
+     * @param $videoID
+     * @param string $status
+     * @return false|string
+     */
+    public function buildAuditContent($client, $videoID, $status = 'Blocked')
+    {
+        $auditContent             = array();
+        $auditContent1            = array();
+        $auditContent1["VideoId"] = $videoID; // 视频ID
+        $auditContent1["Status"]  = $status; // 审核状态
+        $auditContent1["Reason"]  = "nothing to say"; // 若审核状态为屏蔽时，需给出屏蔽的理由，最长支持128字节
+        $auditContent[]           = $auditContent1;
+        return json_encode($auditContent);
+    }
+
+    /**
+     * 阿里云-获取人工审核历史
+     * @param $videoID
+     * @return Result
+     * @throws ClientException
+     * @throws ServerException
+     */
+    public function getAuditHistory($videoID)
+    {
+        return Vod::v20170321()->getAuditHistory()->client(VOD_CLIENT_NAME)
+            ->withVideoId($videoID)// 指定接口参数
+            ->format('JSON')// 指定返回格式
+            ->request();      // 执行请求
+    }
+
+    /**
+     * 阿里云-获取播放地址
+     * @param $videoId
+     * @return Result
+     * @throws ClientException
+     * @throws ServerException
+     */
+    public function getPlayInfo($videoId)
+    {
+        return Vod::v20170321()->getPlayInfo()->client(VOD_CLIENT_NAME)
+            ->withVideoId($videoId)// 指定接口参数
+            ->withAuthTimeout(3600 * 24)
+            ->format('JSON')// 指定返回格式
+            ->request();      // 执行请求
+    }
 }

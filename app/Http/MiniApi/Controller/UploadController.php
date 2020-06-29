@@ -103,4 +103,18 @@ class UploadController
         $result    = $this->uploadService->createVideoPost($inputData);
         return ReturnMessage::success($result);
     }
+
+    /**
+     * @RequestMapping("getAliVideoReviewResult")
+     * @param Request $request
+     * @return array
+     * @throws ApiException
+     * @throws DbException
+     */
+    public function getAliVideoReviewResult(Request $request)
+    {
+        $inputData = $request->input();
+        $result    = $this->uploadService->getAliVideoReviewResult($inputData);
+        return ReturnMessage::success($result);
+    }
 }

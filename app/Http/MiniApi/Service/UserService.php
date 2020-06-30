@@ -6,6 +6,7 @@ namespace App\Http\MiniApi\Service;
 use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\PostDao;
+use App\Model\Dao\ResourceDao;
 use App\Model\Dao\UserDao;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
@@ -35,6 +36,12 @@ class UserService
      * @var PostDao
      */
     private $postDao;
+
+    /**
+     * @Inject()
+     * @var ResourceDao
+     */
+    private $resourceDao;
 
     /**
      * @param string $token
@@ -72,6 +79,15 @@ class UserService
         $posts = $this->postDao->getUserPostsByUserNo($userId['id'], $currentPage);
         if (!$posts) {
             return Error::instance(Constant::$USER_HAS_NOT_POST_ANYTHING);
+        }
+
+        foreach ($posts['list'] as &$post) {
+            $resource = $this->resourceDao->getResourceByPostId($post['id']);
+            if (!$resource) {
+                $post['resource'] = $resource;
+            } else {
+                $post['resource'] = [];
+            }
         }
 
         return Error::instance(Constant::$SUCCESS_NUM, $posts);

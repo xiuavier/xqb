@@ -110,4 +110,23 @@ class ResourceDao
 
         return true;
     }
+
+    /**
+     * @param int $postId
+     * @return array|bool
+     * @throws DbException
+     */
+    public function getResourceByPostId(int $postId)
+    {
+        $resource = Resource::select('id', 'post_id', 'type', 'url', 'cover_url')
+            ->where('post_id', '=', $postId)
+            ->where('deleted_at', '=', 0)
+            ->first()
+            ->toArray();
+        if (empty($resource)) {
+            return false;
+        }
+
+        return $resource;
+    }
 }

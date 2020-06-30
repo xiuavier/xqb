@@ -92,6 +92,7 @@ class PostDao
         )
             ->where('user_id', '=', $userId)
             ->where('deleted_at', '=', 0)
+            ->where('review_status', '=', DatabaseCode::$REVIEW_STATUS_PASS)
             ->paginate($currentPage, DatabaseCode::$ACTIVITY_PER_PAGE);
 
         if (empty($posts['list'])) {

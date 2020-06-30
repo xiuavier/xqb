@@ -79,6 +79,7 @@ class UserController
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
+     * @throws DbException
      */
     public function getUserPosts(Request $request)
     {

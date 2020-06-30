@@ -69,7 +69,7 @@ class UserService
 
         $userId = $this->userDao->getUserByUserNo($userInfo['userNo']);
 
-        $posts = $this->postDao->getUserPostsByUserNo($userId, $currentPage);
+        $posts = $this->postDao->getUserPostsByUserNo($userId['id'], $currentPage);
         if (!$posts) {
             return Error::instance(Constant::$USER_HAS_NOT_POST_ANYTHING);
         }

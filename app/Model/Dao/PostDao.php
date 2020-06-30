@@ -87,7 +87,7 @@ class PostDao
     public function getUserPostsByUserNo(int $userId, int $currentPage)
     {
         $posts = Post::select(
-            'id', 'title', 'tag', 'user_id', 'activity_id',
+            'id', 'title', 'tag', 'activity_id',
             'activity_type', 'course_id', 'type', 'likes'
         )
             ->where('user_id', '=', $userId)

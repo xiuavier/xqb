@@ -88,6 +88,7 @@ class PostDao
     {
         $posts = Post::where('user_id', '=', $userId)
             ->where('deleted_at', '=', 0)
+            ->select('id, title, tag, user_id')
             ->paginate($currentPage, DatabaseCode::$ACTIVITY_PER_PAGE);
 
         if (empty($posts['list'])) {

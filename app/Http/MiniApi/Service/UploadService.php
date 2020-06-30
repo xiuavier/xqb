@@ -160,12 +160,13 @@ class UploadService
 
         //然后新建post
         $postData = [
-            'user_id'     => $user['id'],
-            'title'       => $inputData['title'],
-            'tag'         => $activity['tag'],
-            'activity_id' => $inputData['activityId'],
-            'course_id'   => $inputData['courseId'],
-            'type'        => DatabaseCode::$POST_TYPE_PICTURE
+            'user_id'       => $user['id'],
+            'title'         => $inputData['title'],
+            'tag'           => $activity['tag'],
+            'activity_id'   => $inputData['activityId'],
+            'course_id'     => $inputData['courseId'],
+            'type'          => DatabaseCode::$POST_TYPE_PICTURE,
+            'activity_type' => $activity['type']
         ];
         $post     = $this->postDao->create($postData);
 
@@ -199,12 +200,13 @@ class UploadService
 
         //然后新建post
         $postData = [
-            'user_id'     => $user['id'],
-            'title'       => $inputData['title'],
-            'tag'         => $activity['tag'],
-            'activity_id' => $inputData['activityId'],
-            'course_id'   => $inputData['courseId'],
-            'type'        => DatabaseCode::$POST_TYPE_VIDEO
+            'user_id'       => $user['id'],
+            'title'         => $inputData['title'],
+            'tag'           => $activity['tag'],
+            'activity_id'   => $inputData['activityId'],
+            'course_id'     => $inputData['courseId'],
+            'type'          => DatabaseCode::$POST_TYPE_VIDEO,
+            'activity_type' => $activity['type']
         ];
         $post     = $this->postDao->create($postData);
 

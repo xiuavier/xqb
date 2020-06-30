@@ -20,6 +20,42 @@ use Swoft\Db\Eloquent\Model;
 class Post extends Model
 {
     /**
+     * 
+     * @Id()
+     * @Column()
+     *
+     * @var int
+     */
+    private $id;
+
+    /**
+     * 
+     *
+     * @Column()
+     *
+     * @var string|null
+     */
+    private $title;
+
+    /**
+     * 参与的活动标签
+     *
+     * @Column()
+     *
+     * @var string|null
+     */
+    private $tag;
+
+    /**
+     * 所属的用户id
+     *
+     * @Column(name="user_id", prop="userId")
+     *
+     * @var int|null
+     */
+    private $userId;
+
+    /**
      * 所属的活动id
      *
      * @Column(name="activity_id", prop="activityId")
@@ -29,6 +65,15 @@ class Post extends Model
     private $activityId;
 
     /**
+     * 推文的活动类型，0表示快乐成长，1表示安全成长
+     *
+     * @Column(name="activity_type", prop="activityType")
+     *
+     * @var int|null
+     */
+    private $activityType;
+
+    /**
      * 课程id
      *
      * @Column(name="course_id", prop="courseId")
@@ -36,6 +81,33 @@ class Post extends Model
      * @var int|null
      */
     private $courseId;
+
+    /**
+     * 推文类型，0表示视频，1表示图文
+     *
+     * @Column()
+     *
+     * @var int|null
+     */
+    private $type;
+
+    /**
+     * 推文获赞数
+     *
+     * @Column()
+     *
+     * @var int|null
+     */
+    private $likes;
+
+    /**
+     * 审核状态，0表示未审核，1表示审核通过，2表示撤销审核
+     *
+     * @Column(name="review_status", prop="reviewStatus")
+     *
+     * @var int|null
+     */
+    private $reviewStatus;
 
     /**
      * 
@@ -49,60 +121,6 @@ class Post extends Model
     /**
      * 
      *
-     * @Column(name="deleted_at", prop="deletedAt")
-     *
-     * @var int|null
-     */
-    private $deletedAt;
-
-    /**
-     * 
-     * @Id()
-     * @Column()
-     *
-     * @var int
-     */
-    private $id;
-
-    /**
-     * 审核状态，0表示未审核，1表示审核通过，2表示撤销审核
-     *
-     * @Column(name="review_status", prop="reviewStatus")
-     *
-     * @var int|null
-     */
-    private $reviewStatus;
-
-    /**
-     * 参与的活动标签
-     *
-     * @Column()
-     *
-     * @var string|null
-     */
-    private $tag;
-
-    /**
-     * 
-     *
-     * @Column()
-     *
-     * @var string|null
-     */
-    private $title;
-
-    /**
-     * 推文类型，0表示视频，1表示图文
-     *
-     * @Column()
-     *
-     * @var int|null
-     */
-    private $type;
-
-    /**
-     * 
-     *
      * @Column(name="updated_at", prop="updatedAt")
      *
      * @var int|null
@@ -110,62 +128,14 @@ class Post extends Model
     private $updatedAt;
 
     /**
-     * 所属的用户id
+     * 
      *
-     * @Column(name="user_id", prop="userId")
+     * @Column(name="deleted_at", prop="deletedAt")
      *
      * @var int|null
      */
-    private $userId;
+    private $deletedAt;
 
-
-    /**
-     * @param int|null $activityId
-     *
-     * @return self
-     */
-    public function setActivityId(?int $activityId): self
-    {
-        $this->activityId = $activityId;
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $courseId
-     *
-     * @return self
-     */
-    public function setCourseId(?int $courseId): self
-    {
-        $this->courseId = $courseId;
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $createdAt
-     *
-     * @return self
-     */
-    public function setCreatedAt(?int $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $deletedAt
-     *
-     * @return self
-     */
-    public function setDeletedAt(?int $deletedAt): self
-    {
-        $this->deletedAt = $deletedAt;
-
-        return $this;
-    }
 
     /**
      * @param int $id
@@ -175,30 +145,6 @@ class Post extends Model
     public function setId(int $id): self
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $reviewStatus
-     *
-     * @return self
-     */
-    public function setReviewStatus(?int $reviewStatus): self
-    {
-        $this->reviewStatus = $reviewStatus;
-
-        return $this;
-    }
-
-    /**
-     * @param string|null $tag
-     *
-     * @return self
-     */
-    public function setTag(?string $tag): self
-    {
-        $this->tag = $tag;
 
         return $this;
     }
@@ -216,25 +162,13 @@ class Post extends Model
     }
 
     /**
-     * @param int|null $type
+     * @param string|null $tag
      *
      * @return self
      */
-    public function setType(?int $type): self
+    public function setTag(?string $tag): self
     {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @param int|null $updatedAt
-     *
-     * @return self
-     */
-    public function setUpdatedAt(?int $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+        $this->tag = $tag;
 
         return $this;
     }
@@ -252,11 +186,159 @@ class Post extends Model
     }
 
     /**
+     * @param int|null $activityId
+     *
+     * @return self
+     */
+    public function setActivityId(?int $activityId): self
+    {
+        $this->activityId = $activityId;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $activityType
+     *
+     * @return self
+     */
+    public function setActivityType(?int $activityType): self
+    {
+        $this->activityType = $activityType;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $courseId
+     *
+     * @return self
+     */
+    public function setCourseId(?int $courseId): self
+    {
+        $this->courseId = $courseId;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $type
+     *
+     * @return self
+     */
+    public function setType(?int $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $likes
+     *
+     * @return self
+     */
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $reviewStatus
+     *
+     * @return self
+     */
+    public function setReviewStatus(?int $reviewStatus): self
+    {
+        $this->reviewStatus = $reviewStatus;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $createdAt
+     *
+     * @return self
+     */
+    public function setCreatedAt(?int $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $updatedAt
+     *
+     * @return self
+     */
+    public function setUpdatedAt(?int $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $deletedAt
+     *
+     * @return self
+     */
+    public function setDeletedAt(?int $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
+    /**
      * @return int|null
      */
     public function getActivityId(): ?int
     {
         return $this->activityId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getActivityType(): ?int
+    {
+        return $this->activityType;
     }
 
     /**
@@ -270,25 +352,17 @@ class Post extends Model
     /**
      * @return int|null
      */
-    public function getCreatedAt(): ?int
+    public function getType(): ?int
     {
-        return $this->createdAt;
+        return $this->type;
     }
 
     /**
      * @return int|null
      */
-    public function getDeletedAt(): ?int
+    public function getLikes(): ?int
     {
-        return $this->deletedAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
+        return $this->likes;
     }
 
     /**
@@ -300,27 +374,11 @@ class Post extends Model
     }
 
     /**
-     * @return string|null
-     */
-    public function getTag(): ?string
-    {
-        return $this->tag;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
      * @return int|null
      */
-    public function getType(): ?int
+    public function getCreatedAt(): ?int
     {
-        return $this->type;
+        return $this->createdAt;
     }
 
     /**
@@ -334,9 +392,9 @@ class Post extends Model
     /**
      * @return int|null
      */
-    public function getUserId(): ?int
+    public function getDeletedAt(): ?int
     {
-        return $this->userId;
+        return $this->deletedAt;
     }
 
 }

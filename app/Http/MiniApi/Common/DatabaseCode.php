@@ -55,4 +55,14 @@ class DatabaseCode
      * @var int 小程序前端，活动每页数量
      */
     public static $ACTIVITY_PER_PAGE = 5;
+
+    /**
+     * @var int 快乐活动
+     */
+    public static $ACTIVITY_TYPE_HAPPY=0;
+
+    /**
+     * @var int 安全活动
+     */
+    public static $ACTIVITY_TYPE_SAFE=1;
 }

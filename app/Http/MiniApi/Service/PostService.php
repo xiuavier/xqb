@@ -78,11 +78,23 @@ class PostService
             return Error::instance(Constant::$USER_NOT_LOGIN);
         }
 
+        $result = $this->redis->hGet(
+            'userNo:' . $userInfo['userNo'] . ':postLike',
+            'postId' . $data['postId']
+        );
         //在redis中建立一个hash存储该用户点赞的记录
-        if ($this->redis->hGet('userNo:' . $userInfo['userNo'] . ':postLike', $data['postId'])) {
-            $this->redis->hSet('userNo:' . $userInfo['userNo'] . ':postLike', $data['postId'], 0);
+        if ($result) {
+            $this->redis->hSet(
+                'userNo:' . $userInfo['userNo'] . ':postLike',
+                'postId' . $data['postId'],
+                0
+            );
         } else {
-            $this->redis->hSet('userNo:' . $userInfo['userNo'] . ':postLike', $data['postId'], 1);
+            $this->redis->hSet(
+                'userNo:' . $userInfo['userNo'] . ':postLike',
+                'postId' . $data['postId'],
+                1
+            );
         }
 
         return Error::instance(Constant::$SUCCESS_NUM);

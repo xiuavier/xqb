@@ -77,4 +77,22 @@ class PostDao
 
         return false;
     }
+
+    /**
+     * @param int $userId
+     * @param int $currentPage
+     * @return array|bool
+     * @throws DbException
+     */
+    public function getUserPostsByUserNo(int $userId, int $currentPage)
+    {
+        $posts = Post::where('user_id', '=', $userId)
+            ->where('deleted_at', '=', 0)
+            ->paginate($currentPage, DatabaseCode::$ACTIVITY_PER_PAGE);
+
+        if (empty($posts['list'])) {
+            return false;
+        }
+        return $posts;
+    }
 }

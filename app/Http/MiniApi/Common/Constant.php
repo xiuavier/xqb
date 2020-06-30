@@ -58,4 +58,10 @@ class Constant
      * @var int 广告列表为空
      */
     public static $ADS_EMPTY = 4001;
+
+    //=============推文相关================
+    /**
+     * @var int 用户还未发布过推文
+     */
+    public static $USER_HAS_NOT_POST_ANYTHING = 5001;
 }

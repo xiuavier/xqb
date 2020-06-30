@@ -31,6 +31,7 @@ class UserController
     private $userService;
 
     /**
+     * 个人中心，获取用户信息
      * @RequestMapping("index")
      * @Validate(validator="TokenValidator")
      * @Middleware(TokenMiddleware::class)
@@ -54,7 +55,7 @@ class UserController
     public function userAgreement()
     {
         $renderer = \Swoft::getBean('view');
-        $content = $renderer->render('user/userAgreement');
+        $content  = $renderer->render('user/userAgreement');
         return context()->getResponse()->withContentType(ContentType::HTML)->withContent($content);
     }
 
@@ -66,7 +67,24 @@ class UserController
     public function privacyPolicy()
     {
         $renderer = \Swoft::getBean('view');
-        $content = $renderer->render('user/privacyPolicy');
+        $content  = $renderer->render('user/privacyPolicy');
         return context()->getResponse()->withContentType(ContentType::HTML)->withContent($content);
+    }
+
+    /**
+     * 获取用户作品列表
+     * @RequestMapping("getUserPosts")
+     * @Validate(validator="TokenValidator")
+     * @Validate(validator="CurrentPageValidator")
+     * @Middleware(TokenMiddleware::class)
+     * @param Request $request
+     * @return array
+     */
+    public function getUserPosts(Request $request)
+    {
+        $token       = $request->post('token');
+        $currentPage = $request->post('currentPage');
+        $result      = $this->userService->getUserPosts($token, $currentPage);
+        return ReturnMessage::success($result);
     }
 }

@@ -14,4 +14,5 @@ return [
     Constant::$USER_WX_INFO_DECRYPTED_FAIL => "用户微信信息解密失败",
     Constant::$ACTIVITY_NOT_EXISTS         => "活动不存在",
     Constant::$ADS_EMPTY                   => "广告列表为空",
+    Constant::$USER_HAS_NOT_POST_ANYTHING  => "用户还未发布过推文",
 ];

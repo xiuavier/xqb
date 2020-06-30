@@ -66,4 +66,25 @@ class PostService
 
         return Error::instance(Constant::$SUCCESS_NUM, $posts);
     }
+
+    /**
+     * @param array $data
+     * @return Error
+     */
+    public function like(array $data)
+    {
+        $userInfo = $this->redis->hGetAll('token:' . $data['token']);
+        if (!$userInfo) {
+            return Error::instance(Constant::$USER_NOT_LOGIN);
+        }
+
+        //在redis中建立一个hash存储该用户点赞的记录
+        if ($this->redis->hGet('userNo:' . $userInfo['userNo'] . ':postLike', $data['postId'])) {
+            $this->redis->hSet('userNo:' . $userInfo['userNo'] . ':postLike', $data['postId'], 0);
+        } else {
+            $this->redis->hSet('userNo:' . $userInfo['userNo'] . ':postLike', $data['postId'], 1);
+        }
+
+        return Error::instance(Constant::$SUCCESS_NUM);
+    }
 }

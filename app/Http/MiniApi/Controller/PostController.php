@@ -44,4 +44,20 @@ class PostController
         $result = $this->postService->lists($data);
         return ReturnMessage::success($result);
     }
+
+    /**
+     * @RequestMapping("like")
+     * @Validate(validator="TokenValidator")
+     * @Validate(validator="PostIdValidator")
+     * @Middleware(TokenMiddleware::class)
+     * @param Request $request
+     * @return array
+     * @throws DbException
+     */
+    public function like(Request $request)
+    {
+        $data   = $request->input();
+        $result = $this->postService->like($data);
+        return ReturnMessage::success($result);
+    }
 }

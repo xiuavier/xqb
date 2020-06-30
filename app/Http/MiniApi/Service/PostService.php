@@ -80,19 +80,19 @@ class PostService
 
         $result = $this->redis->hGet(
             'userNo:' . $userInfo['userNo'] . ':postLike',
-            'postId' . $data['postId']
+            'postId:' . $data['postId']
         );
         //在redis中建立一个hash存储该用户点赞的记录
         if ($result) {
             $this->redis->hSet(
                 'userNo:' . $userInfo['userNo'] . ':postLike',
-                'postId' . $data['postId'],
+                'postId:' . $data['postId'],
                 0
             );
         } else {
             $this->redis->hSet(
                 'userNo:' . $userInfo['userNo'] . ':postLike',
-                'postId' . $data['postId'],
+                'postId:' . $data['postId'],
                 1
             );
         }

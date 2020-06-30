@@ -86,7 +86,10 @@ class PostDao
      */
     public function getUserPostsByUserNo(int $userId, int $currentPage)
     {
-        $posts = Post::select('id', 'title', 'tag', 'user_id')
+        $posts = Post::select(
+            'id', 'title', 'tag', 'user_id', 'activity_id',
+            'activity_type', 'course_id', 'type', 'likes'
+        )
             ->where('user_id', '=', $userId)
             ->where('deleted_at', '=', 0)
             ->paginate($currentPage, DatabaseCode::$ACTIVITY_PER_PAGE);

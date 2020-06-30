@@ -83,7 +83,7 @@ class UserService
 
         foreach ($posts['list'] as &$post) {
             $resource = $this->resourceDao->getResourceByPostId($post['id']);
-            if (!$resource) {
+            if ($resource) {
                 $post['resource'] = $resource;
             } else {
                 $post['resource'] = [];

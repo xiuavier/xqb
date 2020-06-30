@@ -18,8 +18,8 @@ class TypeValidator
 {
     /**
      * @Required()
-     * @IsInt(message="活动类型值类型错误")
-     * @Enum(values={0,1,2}, message="活动类型值不在指定范围内")
+     * @IsInt(message="type值类型错误")
+     * @Enum(values={0,1,2}, message="type值不在指定范围内")
      */
     protected $type;
 }

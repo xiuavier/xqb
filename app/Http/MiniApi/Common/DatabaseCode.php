@@ -59,10 +59,15 @@ class DatabaseCode
     /**
      * @var int 快乐活动
      */
-    public static $ACTIVITY_TYPE_HAPPY=0;
+    public static $ACTIVITY_TYPE_HAPPY = 0;
 
     /**
      * @var int 安全活动
      */
-    public static $ACTIVITY_TYPE_SAFE=1;
+    public static $ACTIVITY_TYPE_SAFE = 1;
+
+    /**
+     * @var int 推文每页数量
+     */
+    public static $POST_PER_PAGE = 10;
 }

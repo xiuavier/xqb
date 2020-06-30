@@ -64,4 +64,9 @@ class Constant
      * @var int 用户还未发布过推文
      */
     public static $USER_HAS_NOT_POST_ANYTHING = 5001;
+
+    /**
+     * @var int 推文列表为空
+     */
+    public static $POST_LIST_EMPTY = 5002;
 }

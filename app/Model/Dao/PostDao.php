@@ -100,4 +100,48 @@ class PostDao
         }
         return $posts;
     }
+
+    /**
+     * @param int $type
+     * @param int $currentPage
+     * @return array|bool
+     * @throws DbException
+     */
+    public function getPostsByType(int $type, int $currentPage)
+    {
+        $posts = Post::select(
+            'id', 'title', 'tag', 'activity_id',
+            'activity_type', 'course_id', 'type', 'likes'
+        )
+            ->where('activity_type', '=', $type)
+            ->where('deleted_at', '=', 0)
+            ->where('review_status', '=', DatabaseCode::$REVIEW_STATUS_PASS)
+            ->paginate($currentPage, DatabaseCode::$POST_PER_PAGE);
+
+        if (empty($posts['list'])) {
+            return false;
+        }
+        return $posts;
+    }
+
+    /**
+     * @param int $currentPage
+     * @return array|bool
+     * @throws DbException
+     */
+    public function getAllPosts(int $currentPage)
+    {
+        $posts = Post::select(
+            'id', 'title', 'tag', 'activity_id',
+            'activity_type', 'course_id', 'type', 'likes'
+        )
+            ->where('deleted_at', '=', 0)
+            ->where('review_status', '=', DatabaseCode::$REVIEW_STATUS_PASS)
+            ->paginate($currentPage, DatabaseCode::$POST_PER_PAGE);
+
+        if (empty($posts['list'])) {
+            return false;
+        }
+        return $posts;
+    }
 }

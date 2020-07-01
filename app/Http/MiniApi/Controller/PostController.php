@@ -4,6 +4,7 @@
 namespace App\Http\MiniApi\Controller;
 
 
+use App\Exception\ApiException;
 use App\Http\Middleware\TokenMiddleware;
 use App\Http\MiniApi\Common\ReturnMessage;
 use App\Http\MiniApi\Service\PostService;
@@ -54,6 +55,7 @@ class PostController
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
+     * @throws ApiException
      */
     public function like(Request $request)
     {

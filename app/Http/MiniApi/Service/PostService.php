@@ -57,15 +57,9 @@ class PostService
         }
 
         foreach ($posts['list'] as &$post) {
-            //将每条动态所包含的资源加载出来
-            $resource = $this->resourceDao->getResourceByPostId($post['id']);
-            if ($resource) {
-                $post['resource'] = $resource;
-            } else {
-                $post['resource'] = [];
-            }
-
-            $userInfo = $this->redis->hGetAll('token:' . $data['token']);
+            //增加动态作者的用户信息
+            $userInfo         = $this->redis->hGetAll('token:' . $data['token']);
+            $post['userInfo'] = $userInfo;
             //还需要判断当前登录的用户是否对该动态点赞
             $isLike = $this->redis->hGet(
                 'userNo:' . $userInfo['userNo'] . ':postLike',
@@ -75,6 +69,14 @@ class PostService
                 $post['currentUserLike'] = 1;
             } else {
                 $post['currentUserLike'] = 0;
+            }
+
+            //将每条动态所包含的资源加载出来
+            $resource = $this->resourceDao->getResourceByPostId($post['id']);
+            if ($resource) {
+                $post['resource'] = $resource;
+            } else {
+                $post['resource'] = [];
             }
         }
 

@@ -20,7 +20,7 @@ use Swoft\Db\Eloquent\Model;
 class Admin extends Model
 {
     /**
-     * 
+     *
      * @Id()
      * @Column()
      *
@@ -38,9 +38,9 @@ class Admin extends Model
     private $account;
 
     /**
-     * 
      *
-     * @Column(hidden=true)
+     *
+     * @Column()
      *
      * @var string
      */
@@ -65,7 +65,7 @@ class Admin extends Model
     private $status;
 
     /**
-     * 
+     *
      *
      * @Column(name="created_at", prop="createdAt")
      *
@@ -74,7 +74,7 @@ class Admin extends Model
     private $createdAt;
 
     /**
-     * 
+     *
      *
      * @Column(name="updated_at", prop="updatedAt")
      *
@@ -83,7 +83,7 @@ class Admin extends Model
     private $updatedAt;
 
     /**
-     * 
+     *
      *
      * @Column(name="deleted_at", prop="deletedAt")
      *

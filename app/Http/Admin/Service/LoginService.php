@@ -9,6 +9,7 @@ use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\AdminDao;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
+use Swoft\Http\Session\HttpSession;
 use Swoft\Rpc\Server\Annotation\Mapping\Service;
 
 /**
@@ -25,16 +26,31 @@ class LoginService
     private $adminDao;
 
     /**
+     * @Inject()
+     * @var HttpSession
+     */
+    private $session;
+
+    /**
      * @param array $data
      * @return Error
      * @throws DbException
      */
     public function login(array $data)
     {
-        $admin = $this->adminDao->getOne($data['account'], $data['password']);
+        $admin = $this->adminDao->getAccount($data['account']);
         if (!$admin) {
-            return Error::instance(Constant::$ADMIN_LOGIN_FAIL);
+            return Error::instance(Constant::$ADMIN_ACCOUNT_NOT_EXIST);
         }
+
+        if (!password_verify($data['password'], $admin['password'])) {
+            return Error::instance(Constant::$ADMIN_PASSWORD_FAIL);
+        }
+
+        //将用户信息保存到session中
+        $session = HttpSession::current();
+        $session->set('adminId', $admin['id']);
+
         return Error::instance(Constant::$SUCCESS_NUM);
     }
 }

@@ -72,7 +72,11 @@ class Constant
 
     //=============后台登录================
     /**
-     * @var int 登录失败，账号或密码错误
+     * @var int 管理员账号不存在
      */
-    public static $ADMIN_LOGIN_FAIL = 6001;
+    public static $ADMIN_ACCOUNT_NOT_EXIST = 6001;
+    /**
+     * @var int 管理员账号密码错误
+     */
+    public static $ADMIN_PASSWORD_FAIL = 6002;
 }

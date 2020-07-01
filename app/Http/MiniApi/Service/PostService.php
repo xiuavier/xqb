@@ -64,7 +64,7 @@ class PostService
                 $post['resource'] = [];
             }
 
-            $userInfo = $this->redis->get('token:' . $data['token']);
+            $userInfo = $this->redis->hGetAll('token:' . $data['token']);
             //还需要判断当前登录的用户是否对该动态点赞
             $isLike = $this->redis->hGet(
                 'userNo:' . $userInfo['userNo'] . ':postLike',

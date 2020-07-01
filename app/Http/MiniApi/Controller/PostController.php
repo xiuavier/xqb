@@ -29,6 +29,7 @@ class PostController
     private $postService;
 
     /**
+     * 动态列表接口
      * @RequestMapping("lists")
      * @Validate(validator="TokenValidator")
      * @Validate(validator="TypeValidator")
@@ -46,13 +47,13 @@ class PostController
     }
 
     /**
+     * 动态点赞接口
      * @RequestMapping("like")
      * @Validate(validator="TokenValidator")
      * @Validate(validator="PostIdValidator")
      * @Middleware(TokenMiddleware::class)
      * @param Request $request
      * @return array
-     * @throws DbException
      */
     public function like(Request $request)
     {

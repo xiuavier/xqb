@@ -8,6 +8,7 @@ use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\PostDao;
 use App\Model\Dao\ResourceDao;
+use App\Model\Dao\UserDao;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
 use Swoft\Redis\Pool;
@@ -38,6 +39,12 @@ class PostService
     private $resourceDao;
 
     /**
+     * @Inject()
+     * @var UserDao
+     */
+    private $userDao;
+
+    /**
      * @param array $data
      * @return Error
      * @throws DbException
@@ -58,8 +65,10 @@ class PostService
 
         foreach ($posts['list'] as &$post) {
             //增加动态作者的用户信息
-            $userInfo         = $this->redis->hGetAll('token:' . $data['token']);
-            $post['userInfo'] = $userInfo;
+            $owner             = $this->userDao->getUserByID($post['userId']);
+            $post['ownerInfo'] = $owner;
+
+            $userInfo = $this->redis->hGetAll('token:' . $data['token']);
             //还需要判断当前登录的用户是否对该动态点赞
             $isLike = $this->redis->hGet(
                 'userNo:' . $userInfo['userNo'] . ':postLike',

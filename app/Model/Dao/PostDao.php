@@ -118,7 +118,7 @@ class PostDao
     public function getPostsByType(int $type, int $currentPage)
     {
         $posts = Post::select(
-            'id', 'title', 'tag', 'activity_id',
+            'id', 'title', 'tag', 'activity_id', 'user_id',
             'activity_type', 'course_id', 'type', 'likes'
         )
             ->where('activity_type', '=', $type)
@@ -140,7 +140,7 @@ class PostDao
     public function getAllPosts(int $currentPage)
     {
         $posts = Post::select(
-            'id', 'title', 'tag', 'activity_id',
+            'id', 'title', 'tag', 'activity_id', 'user_id',
             'activity_type', 'course_id', 'type', 'likes'
         )
             ->where('deleted_at', '=', 0)

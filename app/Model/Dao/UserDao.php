@@ -102,4 +102,21 @@ class UserDao
 
         return false;
     }
+
+    /**
+     * 根据id来获取用户信息
+     * @param string $id
+     * @return bool|mixed
+     * @throws DbException
+     */
+    public function getUserByID(string $id)
+    {
+        $user = User::where('id', '=', $id)
+            ->first(['user_no', 'nickname', 'avatar']);
+        if (!empty($user)) {
+            return $user->toArray();
+        }
+
+        return false;
+    }
 }

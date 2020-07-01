@@ -82,6 +82,22 @@ class UserService
         }
 
         foreach ($posts['list'] as &$post) {
+            //增加动态作者的用户信息
+            $owner             = $this->userDao->getUserByID($post['userId']);
+            $post['ownerInfo'] = $owner;
+
+            $userInfo = $this->redis->hGetAll('token:' . $token);
+            //还需要判断当前登录的用户是否对该动态点赞
+            $isLike = $this->redis->hGet(
+                'userNo:' . $userInfo['userNo'] . ':postLike',
+                'postId:' . $post['id']
+            );
+            if ($isLike) {
+                $post['currentUserLike'] = 1;
+            } else {
+                $post['currentUserLike'] = 0;
+            }
+
             $resource = $this->resourceDao->getResourceByPostId($post['id']);
             if ($resource) {
                 $post['resource'] = $resource;

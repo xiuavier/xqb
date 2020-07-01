@@ -43,19 +43,23 @@ class PostDao
      * @param int $postId
      * @return bool
      * @throws DbException
+     * @throws ApiException
      */
     public function reviewPass(int $postId)
     {
-        $post   = Post::find($postId);
-        $result = $post->update([
-            'review_status' => DatabaseCode::$REVIEW_STATUS_PASS
-        ]);
-
-        if ($result) {
-            return true;
+        DB::beginTransaction();
+        try {
+            $post = Post::find($postId);
+            $post->update([
+                'review_status' => DatabaseCode::$REVIEW_STATUS_PASS
+            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new ApiException('', Constant::$FAIL_NUM);
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -63,19 +67,23 @@ class PostDao
      * @param int $postId
      * @return bool
      * @throws DbException
+     * @throws ApiException
      */
     public function reviewFail(int $postId)
     {
-        $post   = Post::find($postId);
-        $result = $post->update([
-            'review_status' => DatabaseCode::$REVIEW_STATUS_FAIL
-        ]);
-
-        if ($result) {
-            return true;
+        DB::beginTransaction();
+        try {
+            $post = Post::find($postId);
+            $post->update([
+                'review_status' => DatabaseCode::$REVIEW_STATUS_FAIL
+            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new ApiException('', Constant::$FAIL_NUM);
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -143,5 +151,47 @@ class PostDao
             return false;
         }
         return $posts;
+    }
+
+    /**
+     * 增加动态点赞数
+     * @param int $postId
+     * @return bool
+     * @throws ApiException
+     */
+    public function addLikes(int $postId)
+    {
+        DB::beginTransaction();
+        try {
+            Post::find($postId)
+                ->increment('likes', 1);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new ApiException('', Constant::$FAIL_NUM);
+        }
+
+        return true;
+    }
+
+    /**
+     * 减少动态点赞数
+     * @param int $postId
+     * @return bool
+     * @throws ApiException
+     */
+    public function descLikes(int $postId)
+    {
+        DB::beginTransaction();
+        try {
+            Post::find($postId)
+                ->decrement('likes', 1);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new ApiException('', Constant::$FAIL_NUM);
+        }
+
+        return true;
     }
 }

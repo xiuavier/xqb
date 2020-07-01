@@ -3,6 +3,7 @@
 
 namespace App\Http\MiniApi\Service;
 
+use App\Exception\ApiException;
 use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\PostDao;
@@ -83,6 +84,7 @@ class PostService
     /**
      * @param array $data
      * @return Error
+     * @throws ApiException
      */
     public function like(array $data)
     {
@@ -102,12 +104,17 @@ class PostService
                 'postId:' . $data['postId'],
                 0
             );
+
+            //减少动态获赞数
+            $this->postDao->descLikes($data['postId']);
         } else {
             $this->redis->hSet(
                 'userNo:' . $userInfo['userNo'] . ':postLike',
                 'postId:' . $data['postId'],
                 1
             );
+            //增加动态获赞数
+            $this->postDao->addLikes($data['postId']);
         }
 
         return Error::instance(Constant::$SUCCESS_NUM);

@@ -166,7 +166,9 @@ class UploadService
             'activity_id'   => $inputData['activityId'],
             'course_id'     => $inputData['courseId'],
             'type'          => DatabaseCode::$POST_TYPE_PICTURE,
-            'activity_type' => $activity['type']
+            'activity_type' => $activity['type'],
+            //图文的动态先设计成发布即审核通过
+            'review_status' => DatabaseCode::$REVIEW_STATUS_PASS
         ];
         $post     = $this->postDao->create($postData);
 

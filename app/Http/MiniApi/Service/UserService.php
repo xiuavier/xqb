@@ -75,15 +75,14 @@ class UserService
         }
 
         $userId = $this->userDao->getUserByUserNo($userInfo['userNo']);
-
-        $posts = $this->postDao->getUserPostsByUserNo($userId['id'], $currentPage);
+        $posts  = $this->postDao->getUserPostsByUserNo($userId['id'], $currentPage);
         if (!$posts) {
             return Error::instance(Constant::$USER_HAS_NOT_POST_ANYTHING);
         }
+        $owner = $this->userDao->getUserByID($userId['id']);
 
         foreach ($posts['list'] as &$post) {
             //增加动态作者的用户信息
-            $owner             = $this->userDao->getUserByID($post['userId']);
             $post['ownerInfo'] = $owner;
 
             $userInfo = $this->redis->hGetAll('token:' . $token);

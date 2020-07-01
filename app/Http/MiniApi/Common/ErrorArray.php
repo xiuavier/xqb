@@ -16,4 +16,5 @@ return [
     Constant::$ADS_EMPTY                   => "广告列表为空",
     Constant::$USER_HAS_NOT_POST_ANYTHING  => "用户还未发布过推文",
     Constant::$POST_LIST_EMPTY             => "推文列表为空",
+    Constant::$ADMIN_LOGIN_FAIL            => "登录失败，账号或密码错误",
 ];

@@ -69,4 +69,10 @@ class Constant
      * @var int 推文列表为空
      */
     public static $POST_LIST_EMPTY = 5002;
+
+    //=============后台登录================
+    /**
+     * @var int 登录失败，账号或密码错误
+     */
+    public static $ADMIN_LOGIN_FAIL = 6001;
 }

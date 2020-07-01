@@ -4,7 +4,6 @@ namespace App\Model\Dao;
 
 use App\Model\Entity\Ad;
 use Swoft\Bean\Annotation\Mapping\Bean;
-use Swoft\Db\Eloquent\Collection;
 use Swoft\Db\Exception\DbException;
 
 /**

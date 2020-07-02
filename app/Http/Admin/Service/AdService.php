@@ -94,4 +94,15 @@ class AdService
             ->paginate($data['currentPage'], DatabaseCode::$AD_PER_PAGE);
         return Error::instance(Constant::$SUCCESS_NUM, $lists);
     }
+
+    /**
+     * @param array $data
+     * @return Error
+     * @throws ApiException
+     */
+    public function update(array $data)
+    {
+        $this->adDao->update($data);
+        return Error::instance(Constant::$SUCCESS_NUM);
+    }
 }

@@ -55,4 +55,24 @@ class AdDao
 
         return true;
     }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws ApiException
+     */
+    public function update(array $data)
+    {
+        DB::beginTransaction();
+        try {
+            Ad::find($data['id'])
+                ->update($data);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new ApiException('数据库更新广告失败', Constant::$FAIL_NUM);
+        }
+
+        return true;
+    }
 }

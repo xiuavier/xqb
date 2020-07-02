@@ -9,6 +9,7 @@ use App\Http\Admin\Service\AdService;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\MiniApi\Common\ReturnMessage;
 use Swoft\Bean\Annotation\Mapping\Inject;
+use Swoft\Db\Exception\DbException;
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\Middleware;
@@ -51,9 +52,8 @@ class AdController
      * 更新广告
      * @RequestMapping(route="update")
      * @Middleware(AdminAuthMiddleware::class)
-     * @Validate(validator="TitleValidator")
-     * @Validate(validator="ThumbValidator")
-     * @Validate(validator="RedirectTypeValidator")
+     * @Validate(validator="IdValidator")
+     * @Validate(validator="PublishStatusValidator")
      * @param Request $request
      * @return array
      * @throws ApiException
@@ -61,7 +61,7 @@ class AdController
     public function update(Request $request)
     {
         $data   = $request->post();
-        $result = $this->adService->create($data);
+        $result = $this->adService->update($data);
         return ReturnMessage::success($result);
     }
 
@@ -75,6 +75,7 @@ class AdController
      * @param Request $request
      * @return array
      * @throws ApiException
+     * @throws DbException
      */
     public function list(Request $request)
     {

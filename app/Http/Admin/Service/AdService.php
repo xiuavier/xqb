@@ -6,9 +6,12 @@ namespace App\Http\Admin\Service;
 
 use App\Exception\ApiException;
 use App\Http\MiniApi\Common\Constant;
+use App\Http\MiniApi\Common\DatabaseCode;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\AdDao;
+use App\Model\Entity\Ad;
 use Swoft\Bean\Annotation\Mapping\Inject;
+use Swoft\Db\Exception\DbException;
 use Swoft\Rpc\Server\Annotation\Mapping\Service;
 
 /**
@@ -59,10 +62,36 @@ class AdService
             $adData['outside_url'] = $data['outside_url'];
         }
 
-        $adData['title'] = $data['title'];
-        $adData['type']  = $data['type'];
-        $adData['thumb'] = $data['thumb'];
+        $adData['title']  = $data['title'];
+        $adData['type']   = $data['type'];
+        $adData['thumb']  = $data['thumb'];
+        $adData['status'] = $data['status'];
         $this->adDao->create($adData);
         return Error::instance(Constant::$SUCCESS_NUM);
+    }
+
+    /**
+     * @param array $data
+     * @return Error
+     * @throws DbException
+     */
+    public function list(array $data)
+    {
+        $query = Ad::query();
+        if (array_key_exists('title', $data)) {
+            $query = $query->where('title', 'like', '%' . $data['title'] . '%');
+        }
+
+        if (array_key_exists('status', $data)) {
+            $query = $query->where('status', '=', $data['status']);
+        }
+
+        if (array_key_exists('updateTimeStart', $data) and array_key_exists('updateTimeEnd', $data)) {
+            $query = $query->whereBetween('updated_at', [$data['updateTimeStart'], $data['updateTimeEnd']]);
+        }
+
+        $lists = $query->orderByDesc('id')
+            ->paginate($data['currentPage'], DatabaseCode::$AD_PER_PAGE);
+        return Error::instance(Constant::$SUCCESS_NUM, $lists);
     }
 }

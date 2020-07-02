@@ -92,13 +92,22 @@ class Ad extends Model
     private $outsideUrl;
 
     /**
-     * 
+     * 发布状态，0表示未发布，1表示已发布
      *
-     * @Column(name="deleted_at", prop="deletedAt")
+     * @Column()
      *
      * @var int|null
      */
-    private $deletedAt;
+    private $status;
+
+    /**
+     * 
+     *
+     * @Column(name="created_at", prop="createdAt")
+     *
+     * @var int|null
+     */
+    private $createdAt;
 
     /**
      * 
@@ -112,11 +121,11 @@ class Ad extends Model
     /**
      * 
      *
-     * @Column(name="created_at", prop="createdAt")
+     * @Column(name="deleted_at", prop="deletedAt")
      *
      * @var int|null
      */
-    private $createdAt;
+    private $deletedAt;
 
 
     /**
@@ -216,13 +225,25 @@ class Ad extends Model
     }
 
     /**
-     * @param int|null $deletedAt
+     * @param int|null $status
      *
      * @return self
      */
-    public function setDeletedAt(?int $deletedAt): self
+    public function setStatus(?int $status): self
     {
-        $this->deletedAt = $deletedAt;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $createdAt
+     *
+     * @return self
+     */
+    public function setCreatedAt(?int $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -240,13 +261,13 @@ class Ad extends Model
     }
 
     /**
-     * @param int|null $createdAt
+     * @param int|null $deletedAt
      *
      * @return self
      */
-    public function setCreatedAt(?int $createdAt): self
+    public function setDeletedAt(?int $deletedAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
@@ -318,9 +339,17 @@ class Ad extends Model
     /**
      * @return int|null
      */
-    public function getDeletedAt(): ?int
+    public function getStatus(): ?int
     {
-        return $this->deletedAt;
+        return $this->status;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCreatedAt(): ?int
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -334,9 +363,9 @@ class Ad extends Model
     /**
      * @return int|null
      */
-    public function getCreatedAt(): ?int
+    public function getDeletedAt(): ?int
     {
-        return $this->createdAt;
+        return $this->deletedAt;
     }
 
 }

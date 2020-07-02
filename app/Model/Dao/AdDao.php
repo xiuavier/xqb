@@ -4,6 +4,7 @@ namespace App\Model\Dao;
 
 use App\Exception\ApiException;
 use App\Http\MiniApi\Common\Constant;
+use App\Http\MiniApi\Common\DatabaseCode;
 use App\Model\Entity\Ad;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Db\DB;
@@ -23,6 +24,7 @@ class AdDao
     public function getAds()
     {
         $ads = Ad::where('deleted_at', '=', 0)
+            ->where('status', '=', DatabaseCode::$REVIEW_STATUS_PASS)
             ->orderBy('id', 'desc')
             ->get([
                 'id', 'title', 'thumb', 'type', 'activity_id',

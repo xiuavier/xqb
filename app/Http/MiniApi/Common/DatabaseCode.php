@@ -70,4 +70,9 @@ class DatabaseCode
      * @var int 推文每页数量
      */
     public static $POST_PER_PAGE = 10;
+
+    /**
+     * @var int 广告管理每页数量
+     */
+    public static $AD_PER_PAGE = 10;
 }

@@ -18,4 +18,8 @@ return [
     Constant::$POST_LIST_EMPTY             => "推文列表为空",
     Constant::$ADMIN_ACCOUNT_NOT_EXIST     => "管理员账号不存在",
     Constant::$ADMIN_PASSWORD_FAIL         => "管理员账号密码错误",
+    Constant::$ACTIVITY_ID_NOT_EXISTS      => "活动ID未填写",
+    Constant::$POST_ID_NOT_EXIST           => "动态ID未填写",
+    Constant::$MINI_PROGRAM_URL_NOT_EXIST  => "小程序路径未填写",
+    Constant::$OUTSIDE_URL_NOT_EXIST       => "外链地址未填写",
 ];

@@ -26,12 +26,6 @@ class LoginService
     private $adminDao;
 
     /**
-     * @Inject()
-     * @var HttpSession
-     */
-    private $session;
-
-    /**
      * @param array $data
      * @return Error
      * @throws DbException

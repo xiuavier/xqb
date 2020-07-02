@@ -52,6 +52,10 @@ class Constant
      * @var int 活动不存在
      */
     public static $ACTIVITY_NOT_EXISTS = 3001;
+    /**
+     * @var int 活动ID未填写
+     */
+    public static $ACTIVITY_ID_NOT_EXISTS = 3002;
 
     //=============广告相关================
     /**
@@ -64,6 +68,10 @@ class Constant
      * @var int 用户还未发布过推文
      */
     public static $USER_HAS_NOT_POST_ANYTHING = 5001;
+    /**
+     * @var int 动态ID未填写
+     */
+    public static $POST_ID_NOT_EXIST = 5002;
 
     /**
      * @var int 推文列表为空
@@ -79,4 +87,18 @@ class Constant
      * @var int 管理员账号密码错误
      */
     public static $ADMIN_PASSWORD_FAIL = 6002;
+    /**
+     * @var int 管理员未登录
+     */
+    public static $ADMIN_NOT_LOGIN = 6003;
+
+    //=============其他=====================
+    /**
+     * @var int 小程序路径未填写
+     */
+    public static $MINI_PROGRAM_URL_NOT_EXIST = 7001;
+    /**
+     * @var int 外链地址未填写
+     */
+    public static $OUTSIDE_URL_NOT_EXIST = 7002;
 }

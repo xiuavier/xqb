@@ -70,12 +70,12 @@ class CourseController
     }
 
     /**
-     * 获取广告列表
+     * 获取课程列表
      * @RequestMapping(route="list")
      * @Middleware(AdminAuthMiddleware::class)
      * @Validate(validator="CurrentPageValidator")
      * @Validate(validator="TitleNotRequiredValidator")
-     * @Validate(validator="PublishStatusNotRequiredValidator")
+     * @Validate(validator="TagNotRequiredValidator")
      * @param Request $request
      * @return array
      * @throws ApiException
@@ -84,7 +84,7 @@ class CourseController
     public function list(Request $request)
     {
         $data   = $request->post();
-        $result = $this->adService->list($data);
+        $result = $this->courseService->list($data);
         return ReturnMessage::success($result);
     }
 }

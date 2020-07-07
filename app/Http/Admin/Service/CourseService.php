@@ -9,7 +9,7 @@ use App\Http\MiniApi\Common\Constant;
 use App\Http\MiniApi\Common\DatabaseCode;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\CourseDao;
-use App\Model\Entity\Ad;
+use App\Model\Entity\Course;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Db\Exception\DbException;
 use Swoft\Rpc\Server\Annotation\Mapping\Service;
@@ -54,17 +54,12 @@ class CourseService
      */
     public function list(array $data)
     {
-        $query = Ad::query();
+        $query = Course::query();
         if (array_key_exists('title', $data)) {
             $query = $query->where('title', 'like', '%' . $data['title'] . '%');
         }
-
-        if (array_key_exists('status', $data)) {
-            $query = $query->where('status', '=', $data['status']);
-        }
-
-        if (array_key_exists('updateTimeStart', $data) and array_key_exists('updateTimeEnd', $data)) {
-            $query = $query->whereBetween('updated_at', [$data['updateTimeStart'], $data['updateTimeEnd']]);
+        if (array_key_exists('tag', $data)) {
+            $query = $query->where('tag', 'like', '%' . $data['tag'] . '%');
         }
 
         $lists = $query->orderByDesc('id')

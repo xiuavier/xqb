@@ -76,7 +76,7 @@ class Constant
     /**
      * @var int 推文列表为空
      */
-    public static $POST_LIST_EMPTY = 5002;
+    public static $POST_LIST_EMPTY = 5003;
 
     //=============后台登录================
     /**

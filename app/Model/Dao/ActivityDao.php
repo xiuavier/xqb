@@ -22,7 +22,7 @@ class ActivityDao
     public function getOne(int $id)
     {
         $activity = Activity::where('id', '=', $id)
-            ->first(['id', 'title', 'tag', 'slogan', 'thumb_url', 'rule_url', 'bg_url']);
+            ->first(['id', 'title', 'tag', 'slogan', 'thumb_url', 'rule_url', 'bg_url', 'type']);
         if (!empty($activity)) {
             return $activity->toArray();
         }

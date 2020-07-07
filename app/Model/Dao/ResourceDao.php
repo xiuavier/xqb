@@ -121,7 +121,7 @@ class ResourceDao
         $resource = Resource::select('id', 'post_id', 'type', 'url', 'cover_url')
             ->where('post_id', '=', $postId)
             ->where('deleted_at', '=', 0)
-            ->first()
+            ->get()
             ->toArray();
         if (empty($resource)) {
             return false;

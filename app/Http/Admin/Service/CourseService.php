@@ -62,7 +62,10 @@ class CourseService
             $query = $query->where('tag', 'like', '%' . $data['tag'] . '%');
         }
 
-        $lists = $query->orderByDesc('id')
+        $lists = $query->select(
+            'id', 'title', 'tag', 'thumb_url', 'video_url', 'attend_type', 'difficulty', 'description'
+        )
+            ->orderByDesc('id')
             ->paginate($data['currentPage'], DatabaseCode::$AD_PER_PAGE);
         return Error::instance(Constant::$SUCCESS_NUM, $lists);
     }

@@ -20,6 +20,15 @@ use Swoft\Db\Eloquent\Model;
 class Course extends Model
 {
     /**
+     * 参与方式，0是视频，1是图文
+     *
+     * @Column(name="attend_type", prop="attendType")
+     *
+     * @var int|null
+     */
+    private $attendType;
+
+    /**
      * 
      *
      * @Column(name="created_at", prop="createdAt")
@@ -65,6 +74,15 @@ class Course extends Model
     private $id;
 
     /**
+     * 课程标签
+     *
+     * @Column()
+     *
+     * @var string|null
+     */
+    private $tag;
+
+    /**
      * 课程封面图url
      *
      * @Column(name="thumb_url", prop="thumbUrl")
@@ -100,6 +118,18 @@ class Course extends Model
      */
     private $videoUrl;
 
+
+    /**
+     * @param int|null $attendType
+     *
+     * @return self
+     */
+    public function setAttendType(?int $attendType): self
+    {
+        $this->attendType = $attendType;
+
+        return $this;
+    }
 
     /**
      * @param int|null $createdAt
@@ -162,6 +192,18 @@ class Course extends Model
     }
 
     /**
+     * @param string|null $tag
+     *
+     * @return self
+     */
+    public function setTag(?string $tag): self
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
      * @param string|null $thumbUrl
      *
      * @return self
@@ -212,6 +254,14 @@ class Course extends Model
     /**
      * @return int|null
      */
+    public function getAttendType(): ?int
+    {
+        return $this->attendType;
+    }
+
+    /**
+     * @return int|null
+     */
     public function getCreatedAt(): ?int
     {
         return $this->createdAt;
@@ -247,6 +297,14 @@ class Course extends Model
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTag(): ?string
+    {
+        return $this->tag;
     }
 
     /**

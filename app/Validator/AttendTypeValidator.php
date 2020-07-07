@@ -18,8 +18,8 @@ class AttendTypeValidator
 {
     /**
      * @Required()
-     * @NotEmpty(message="参与方式值为空")
      * @IsInt(message="参与方式类型错误")
+     * @Enum(values={0,1}, message="参与方式值不在指定范围内")
      */
     protected $attendType;
 }

@@ -44,7 +44,7 @@ class UserService
             $query = $query->whereBetween('created_at', [$data['createStart'], $data['createEnd']]);
         }
 
-        $lists = $query->select('id, user_no, nickname, avatar, gender, created_at')
+        $lists = $query->select('id', 'user_no', 'nickname', 'avatar', 'gender', 'created_at')
             ->orderByDesc('id')
             ->paginate($data['currentPage'], DatabaseCode::$AD_PER_PAGE);
         return Error::instance(Constant::$SUCCESS_NUM, $lists);

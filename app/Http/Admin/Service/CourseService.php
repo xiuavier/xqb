@@ -38,8 +38,8 @@ class CourseService
         $courseData                = [];
         $courseData['title']       = $data['title'];
         $courseData['type']        = $data['tag'];
-        $courseData['thumb_url']   = $data['thumbUrl'];
-        $courseData['video_url']   = $data['videoUrl'];
+        $courseData['thumb_url']   = $data['thumb'];
+        $courseData['video_url']   = $data['videoPath'];
         $courseData['attend_type'] = $data['attendType'];
         $courseData['difficulty']  = $data['difficulty'];
         $courseData['description'] = $data['description'];

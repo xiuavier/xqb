@@ -65,6 +65,7 @@ class CourseService
         $lists = $query->select(
             'id', 'title', 'tag', 'thumb_url', 'video_url', 'attend_type', 'difficulty', 'description'
         )
+            ->where('deleted_at', '=', 0)
             ->orderByDesc('id')
             ->paginate($data['currentPage'], DatabaseCode::$AD_PER_PAGE);
         return Error::instance(Constant::$SUCCESS_NUM, $lists);

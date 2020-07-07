@@ -74,6 +74,15 @@ class Course extends Model
     private $id;
 
     /**
+     * 发布状态，0表示未发布，1表示发布
+     *
+     * @Column()
+     *
+     * @var int|null
+     */
+    private $status;
+
+    /**
      * 课程标签
      *
      * @Column()
@@ -192,6 +201,18 @@ class Course extends Model
     }
 
     /**
+     * @param int|null $status
+     *
+     * @return self
+     */
+    public function setStatus(?int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
      * @param string|null $tag
      *
      * @return self
@@ -297,6 +318,14 @@ class Course extends Model
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStatus(): ?int
+    {
+        return $this->status;
     }
 
     /**

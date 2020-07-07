@@ -63,7 +63,8 @@ class CourseService
         }
 
         $lists = $query->select(
-            'id', 'title', 'tag', 'thumb_url', 'video_url', 'attend_type', 'difficulty', 'description'
+            'id', 'title', 'tag', 'thumb_url', 'video_url',
+            'attend_type', 'difficulty', 'status', 'description'
         )
             ->where('deleted_at', '=', 0)
             ->orderByDesc('id')

@@ -35,6 +35,7 @@ class CourseController
      * @Middleware(AdminAuthMiddleware::class)
      * @Validate(validator="TitleValidator")
      * @Validate(validator="ThumbValidator")
+     * @Validate(validator="VideoPathValidator")
      * @Validate(validator="TagValidator")
      * @Validate(validator="AttendTypeValidator")
      * @Validate(validator="DifficultyValidator")

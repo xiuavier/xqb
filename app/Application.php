@@ -41,5 +41,6 @@ class Application extends SwoftApplication
 
         // you can init php setting.
         date_default_timezone_set('Asia/Shanghai');
+        define("ROOT", realpath("."));
     }
 }

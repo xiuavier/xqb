@@ -5,6 +5,7 @@ namespace App\Http\MiniApi\Service;
 
 use App\Exception\ApiException;
 use App\Http\MiniApi\Common\Constant;
+use App\Http\MiniApi\Common\DatabaseCode;
 use App\Http\MiniApi\Common\Error;
 use App\Model\Dao\PostDao;
 use App\Model\Dao\ResourceDao;
@@ -83,9 +84,16 @@ class PostService
             //将每条动态所包含的资源加载出来
             $resource = $this->resourceDao->getResourceByPostId($post['id']);
             if ($resource) {
-                $post['resource'] = $resource;
-            } else {
-                $post['resource'] = [];
+                if ($post['type'] == DatabaseCode::$POST_TYPE_VIDEO) {
+                    //表示当前资源是视频，拿出来放到resource数组中
+                    $post['videoUrl'] = $resource[0]['url'];
+                    $post['coverUrl'] = $resource[0]['coverUrl'];
+                } else {
+                    //当前资源是图片，遍历一下然后放到数组中
+                    foreach ($resource as $value) {
+                        array_push($post['pictureUrls'], $value['url']);
+                    }
+                }
             }
         }
 

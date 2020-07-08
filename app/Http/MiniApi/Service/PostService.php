@@ -90,8 +90,8 @@ class PostService
                     $post['coverUrl'] = $resource[0]['coverUrl'];
                 } else {
                     //当前资源是图片，遍历一下然后放到数组中
+                    $post['pictureUrls'] = [];
                     foreach ($resource as $value) {
-                        $post['pictureUrls'] = [];
                         array_push($post['pictureUrls'], $value['url']);
                     }
                 }

@@ -81,6 +81,9 @@ class PostService
                 $post['currentUserLike'] = 0;
             }
 
+            $post['pictureUrls'] = [];
+            $post['videoUrl']    = '';
+            $post['coverUrl']    = '';
             //将每条动态所包含的资源加载出来
             $resource = $this->resourceDao->getResourceByPostId($post['id']);
             if ($resource) {
@@ -90,7 +93,6 @@ class PostService
                     $post['coverUrl'] = $resource[0]['coverUrl'];
                 } else {
                     //当前资源是图片，遍历一下然后放到数组中
-                    $post['pictureUrls'] = [];
                     foreach ($resource as $value) {
                         array_push($post['pictureUrls'], $value['url']);
                     }

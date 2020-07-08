@@ -236,7 +236,7 @@ class UploadService
 
         //表示资源表中有该资源，将该资源对应的post的审核状态变为通过审核
         $client = $this->initVodClient(accessKeyId, accessKeySecret);
-        if ($inputData['Status'] != 'success') {
+        if ($inputData['Status'] != 'success' and $resource['postId'] > 0) {
             //表示没有通过审核
             $this->postDao->reviewFail($resource['postId']);
             return true;
@@ -247,14 +247,14 @@ class UploadService
         $info = $this->getAuditHistory($videoId);
         $Info = json_decode($info, true);
 
-        if ($Info['Status'] != 'Normal') {
+        if ($Info['Status'] != 'Normal' and $resource['postId'] > 0) {
             $this->postDao->reviewFail($resource['postId']);
             return true;
         }
 
         $videoPlayInfo = $this->getPlayInfo($videoId);
         $videoPlayInfo = json_decode($videoPlayInfo, true);
-        if (empty($videoPlayInfo)) {
+        if (empty($videoPlayInfo) and $resource['postId'] > 0) {
             $this->postDao->reviewFail($resource['postId']);
             return false;
         }
@@ -263,13 +263,15 @@ class UploadService
         $data['url']       = $videoPlayInfo['PlayInfoList']['PlayInfo'][0]['PlayURL'];
         $data['cover_url'] = $videoPlayInfo['VideoBase']['CoverURL'];
         $result            = $this->resourceDao->update($resource['id'], $data);
-        if (!$result) {
+        if (!$result and $resource['postId'] > 0) {
             $this->postDao->reviewFail($resource['postId']);
             return false;
         }
 
         //更新推文表中的审核状态，改为审核通过
-        $this->postDao->reviewPass($resource['postId']);
+        if ($resource['postId'] > 0) {
+            $this->postDao->reviewPass($resource['postId']);
+        }
         return true;
     }
 

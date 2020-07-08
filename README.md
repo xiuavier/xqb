@@ -33,3 +33,7 @@ cp .env.example .env
 php ./bin/swoft http:reload 表示重新加载工作进程
 php ./bin/swoft http:restart 表示重新启动HTTP服务器，git pull更新了代码之后执行该命令
 才能成功更新代码
+
+10、要复制根目录下的aliSDK文件夹中的voduploadsdk文件夹到vender文件夹中的alibabacloud下
+这样子才能有后台上传SDK使用。这个SDK阿里云没有放在composer中，所以没有办法使用composer安装
+实在是蛋疼

@@ -38,7 +38,10 @@ class UploadService
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage(), Constant::$FAIL_NUM);
         }
-        return Error::instance(Constant::$SUCCESS_NUM, $result);
+
+        $videoId = $result;
+        $this->resourceDao->createVideo(0, '', $videoId, 0);
+        return Error::instance(Constant::$SUCCESS_NUM);
     }
 
     /**

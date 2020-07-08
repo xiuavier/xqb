@@ -65,4 +65,45 @@ class UploadService
         }
         return '';
     }
+
+    /**
+     * @param array $data
+     * @return Error
+     * @throws ApiException
+     */
+    public function uploadLocalPicture(array $data)
+    {
+        try {
+            $result = $this->aliUploadPicture(ROOT . $data['filePath']);
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage(), Constant::$FAIL_NUM);
+        }
+
+//        $imageId  = $result['ImageId'];
+        $imageUrl = $result['ImageURL'];
+        $this->resourceDao->createPicture(0, $imageUrl, 0);
+        return Error::instance(Constant::$SUCCESS_NUM);
+    }
+
+    /**
+     * @param string $filePath
+     * @return array|string
+     * @throws \Exception
+     */
+    public function aliUploadPicture(string $filePath)
+    {
+        $uploader             = new \AliyunVodUploader(accessKeyId, accessKeySecret);
+        $uploadPictureRequest = new \UploadImageRequest($filePath, 'UploadLocalVideo');
+        $userData             = array(
+//            "MessageCallback" => array("CallbackURL" => "http://xqbmini.szbdedu.com/MiniApi/Upload/getAliVideoReviewResult"),
+            "Extend" => array("localId" => "xxx", "test" => "www"),
+        );
+        $uploadPictureRequest->setUserData(json_encode($userData));
+        $uploadPictureRequest->setWorkflowId('56a7c0b22a24361afc513297c12b793b');
+        $res = $uploader->uploadLocalImage($uploadPictureRequest);
+        if ($res) {
+            return $res;
+        }
+        return '';
+    }
 }

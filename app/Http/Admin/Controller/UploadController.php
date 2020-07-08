@@ -43,4 +43,20 @@ class UploadController
         $result = $this->uploadService->uploadLocalVideo($data);
         return ReturnMessage::success($result);
     }
+
+    /**
+     * 上传图片
+     * @RequestMapping(route="uploadPicture")
+     * @Middleware(AdminAuthMiddleware::class)
+     * @Validate(validator="FilePathValidator")
+     * @param Request $request
+     * @return array
+     * @throws ApiException
+     */
+    public function uploadPicture(Request $request)
+    {
+        $data   = $request->post();
+        $result = $this->uploadService->uploadLocalPicture($data);
+        return ReturnMessage::success($result);
+    }
 }

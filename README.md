@@ -1,4 +1,4 @@
-兴趣帮小程序后台代码
+兴趣帮小程序后台代码手册
 
 1、安装db
 composer require swoft/db

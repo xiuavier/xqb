@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 /**
  * This file is part of Swoft.
- *
  * @link     https://swoft.org
  * @document https://swoft.org/docs
  * @contact  group@swoft.org
@@ -20,9 +19,7 @@ use Swoft\Server\SwooleEvent;
 
 /**
  * Class DeregisterServiceListener
- *
  * @since 2.0
- *
  * @Listener(SwooleEvent::SHUTDOWN)
  */
 class DeregisterServiceListener implements EventHandlerInterface

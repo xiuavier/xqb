@@ -10,9 +10,7 @@ use Swoft\Validator\Annotation\Mapping\Validator;
 
 /**
  * Class CodeValidator
- *
  * @since 2.0
- *
  * @Validator(name="CodeValidator")
  */
 class CodeValidator

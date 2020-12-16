@@ -60,12 +60,6 @@ Swoft 通过长达三年的积累和方向的探索，把 Swoft 打造成 PHP �
 - [中文文档](https://www.swoft.org/docs/2.x/zh-CN/README.html)
 - [English](https://www.swoft.org/docs/2.x/en)
 
-## 学习交流
-
-- QQ Group1: 548173319      
-- QQ Group2: 778656850
-- [swoft-cloud/community](https://gitter.im/swoft-cloud/community)
-
 ## 免费技术支持
 
 ![support](https://www.swoft.org/src/images/technical-support.png)

@@ -12,9 +12,7 @@ use Swoft\Db\Eloquent\Model;
 /**
  * 后台管理员表
  * Class Admin
- *
  * @since 2.0
- *
  * @Entity(table="admin")
  */
 class Admin extends Model

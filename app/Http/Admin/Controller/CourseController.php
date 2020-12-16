@@ -70,7 +70,7 @@ class CourseController
     }
 
     /**
-     * 获取课程列表
+     * 获取某个课程列表
      * @RequestMapping(route="list")
      * @Middleware(AdminAuthMiddleware::class)
      * @Validate(validator="CurrentPageValidator")

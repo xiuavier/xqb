@@ -4,6 +4,7 @@ namespace App\Exception;
 
 use Exception;
 
+
 /**
  * Class ValidateException
  * 参数验证异常
@@ -11,4 +12,5 @@ use Exception;
  */
 class ValidateException extends Exception
 {
+
 }

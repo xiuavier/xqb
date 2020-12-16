@@ -15,7 +15,6 @@ use Swoft\SwoftComponent;
 
 /**
  * Class AutoLoader
- *
  * @since 2.0
  */
 class AutoLoader extends SwoftComponent

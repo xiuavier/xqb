@@ -69,7 +69,7 @@ function getRandChars($length)
 }
 
 /**
- * 生成微信token
+ * 生成微信Token
  * @return string
  */
 function generateWxToken()

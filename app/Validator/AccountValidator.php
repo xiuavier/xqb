@@ -9,9 +9,7 @@ use Swoft\Validator\Annotation\Mapping\Validator;
 
 /**
  * Class AccountValidator
- *
  * @since 2.0
- *
  * @Validator(name="AccountValidator")
  */
 class AccountValidator

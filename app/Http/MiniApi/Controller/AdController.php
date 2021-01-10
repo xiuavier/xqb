@@ -24,6 +24,7 @@ class AdController
 {
     /**
      * @Inject()
+     
      * @var AdService
      */
     private $adService;

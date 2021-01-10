@@ -116,6 +116,7 @@ class UploadController
     public function getAliVideoReviewResult(Request $request)
     {
         $inputData = $request->input();
+        
         return $this->uploadService->getAliVideoReviewResult($inputData);
     }
 }

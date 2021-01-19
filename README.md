@@ -1,3 +1,8 @@
+Special thanks to JetBrains for offering free licenses to our open source project.
+
+https://www.jetbrains.com/?from=xqb
+
+
 兴趣帮小程序后台代码手册
 
 1、安装db

@@ -1,5 +1,6 @@
 Special thanks to JetBrains for offering free licenses to our open source project.
 https://www.jetbrains.com/?from=xqb
+![Image text](https://raw.githubusercontent.com/xiuavier/xqb/master/resource/jetbrains.png)
 
 
 

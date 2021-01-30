@@ -3,7 +3,6 @@
 
 namespace App\Http\Admin\Controller;
 
-
 use App\Http\Admin\Service\LoginService;
 use App\Http\MiniApi\Common\ReturnMessage;
 use Swoft\Bean\Annotation\Mapping\Inject;

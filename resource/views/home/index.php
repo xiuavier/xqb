@@ -95,7 +95,7 @@
     }
 
     h2, .h2 {
-      font-size: 2rem;
+      font-size: 3rem;
     }
 
     h3, .h3 {
